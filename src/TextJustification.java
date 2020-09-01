@@ -15,9 +15,9 @@ public class TextJustification {
 
             // When testing length remember to account for minimum delimiters
             //      which is n-1 where n = number of words
-            while (currentLineLength + nextLine.size() - 1 <= maxWidth) {
+            while (currentLineLength + nextLine.size() - 1 < maxWidth) {
                 String nextWord = words[currentWordIndex];
-                if (currentLineLength + nextWord.length() + nextLine.size() + 1 > maxWidth) {
+                if (currentLineLength + nextWord.length() + nextLine.size()  > maxWidth) {
                     break;
                 } else {
                     nextLine.add(nextWord);
@@ -50,20 +50,18 @@ public class TextJustification {
         int extraPadCounter = paddingNeeded - (avgSpacesPerDelimiter * numOfDelimiters);
         String padding = new String();
 
-        avgSpacesPerDelimiter = paddingNeeded/numOfDelimiters;
-        extraPadCounter = paddingNeeded - (avgSpacesPerDelimiter * numOfDelimiters);
-
         // for all but the last line,
         // add padding between all inner words.
         for (int i = 0; i < lineWords.size() - 1; i++) {
             if (lastLine) {
                 padding = " ";
             } else {
-                padding = " ".repeat(avgSpacesPerDelimiter + extraPadCounter);
+                padding = " ".repeat(avgSpacesPerDelimiter);
             }
 
             paddedLine.append(lineWords.get(i) + padding);
             if (extraPadCounter > 0) {
+                paddedLine.append(" ");
                 extraPadCounter--;
             } else {
                 extraPadCounter = 0;
@@ -85,22 +83,14 @@ public class TextJustification {
     }
 
     public static void main(String[] args) {
-        String[] words = new String[] {"What","must","be","acknowledgment","shall","be"};
-//        String[] words = new String[] {"This", "is", "an", "example", "of", "text", "justification."};
+//        String[] words = new String[] {"What","must","be","acknowledgment","shall","be"};
+//      String[] words = new String[] {"This", "is", "an", "example", "of", "text", "justification."};
 
-//        String[] words = new String[] {"This", "is", "an", "example", "of", "text", "justification",
-//           "and", "it", "goes", "on", "for", "quite", "a", "while"};
+//      int maxWidth = 16;
 
-        //
-        //String[] words = new String[] {"Hello", "world"};
-
-//        String[] words = new String[] {"Hello"};
-
-        int maxWidth = 16;
-
-//        String[] words = new String[] {"Science","is","what","we","understand","well","enough","to","explain",
-//                "to","a","computer.","Art","is","everything","else","we","do"};
-//        int maxWidth = 20;
+        String[] words = new String[] {"Science","is","what","we","understand","well","enough","to","explain",
+                "to","a","computer.","Art","is","everything","else","we","do"};
+        int maxWidth = 20;
 
         List<String> result = new TextJustification().fullJustify(words, maxWidth);
         System.out.println("Final result:");
