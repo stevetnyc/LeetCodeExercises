@@ -47,8 +47,12 @@ public class TextJustification {
         int paddedWidth = currentWidth;
         int paddingNeeded = maxWidth - currentWidth;
         int avgSpacesPerDelimiter = paddingNeeded/numOfDelimiters;
-        int extraPadCounter = paddingNeeded - (avgSpacesPerDelimiter * numOfDelimiters);
+        int extraPadCounter = 0;
         String padding = new String();
+
+        if (!lastLine) {
+            extraPadCounter = paddingNeeded - (avgSpacesPerDelimiter * numOfDelimiters);
+        }
 
         // for all but the last line,
         // add padding between all inner words.
