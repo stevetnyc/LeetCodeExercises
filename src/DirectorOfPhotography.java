@@ -1,29 +1,38 @@
 class DirectorOfPhotography {
+//
+//    static int returnIndex(String C, char target) {
+//        for (int i = 0; i < C.length()) {
+//            if (C.charAt(i) == target) return i;
+//        }
+//        return 0;
+//    }
 
      static long getArtisticPhotographCount(int N, String C, int X, int Y) {
 
         int photos = 0;
-        for (int i=0; i < N; i++) {
-            if (C.charAt(i) == 'P' || C.charAt(i) == 'B' ) {
-                char found = C.charAt(i);
-                System.out.println("Found " + found + " at " + i);
-                for (int j = i+1; j < N; j++) {
-                    if (C.charAt(j) == 'A' && (j - i >= X && j - i <= Y )) {
-                        System.out.println("Found A at " + j);
-                        for(int k = j+1; k < N; k++) {
-                            if (((found == 'P' && C.charAt(k) == 'B') || (found == 'B' && C.charAt(k) == 'P')) && (k - j >= X && k -j <= Y )) {
-                                System.out.println("Found photo at " + k);
-                                photos++;
-                                break;
-                            }
-                        }
+        int[] P = new int[N+1];
+        int[] B = new int[N+1];
 
-                    }
-                }
-            }
+        //initialize arrays with running count of key at each index
+         for (int i = 1; i <=N; i++){
+             char found = C.charAt(i-1);
+             P[i] = P[i-1] + ((found == 'P') ? 1 : 0);
+             B[i] = B[i-1] + ((found == 'B') ? 1 : 0);
+         }
 
-        }
-        return photos;
+         for (int i = 0; i <N; i++) {
+             if(C.charAt(i) == 'A') {
+                 int frontStart = Math.min((i + X), N);
+                 int frontEnd = Math.min(i + Y + 1, N);
+                 int backEnd = Math.max(i - X + 1, 0);
+                 int backStart = Math.max(i - Y, 0);
+                 photos += (P[frontEnd] - P[frontStart]) * (B[backEnd] - B[backStart]);
+                 photos += (B[frontEnd] - B[frontStart]) * (P[backEnd] - P[backStart]);
+
+             }
+
+         }
+         return photos;
     }
     public static void main(String[] args) {
 
