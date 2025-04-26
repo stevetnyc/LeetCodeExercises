@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Utils {
 
@@ -31,5 +32,28 @@ public class Utils {
             System.out.print(i + ",");
         }
         System.out.println("]");
+    }
+
+    static void printHeap(PriorityQueue<?> minHeap) {
+
+        System.out.print("[");
+        for (int i = 0; i < minHeap.size(); i++) {
+            System.out.print(minHeap.poll());
+            if (i < minHeap.size() - 1) System.out.print(", ");
+        }
+        System.out.println("]");
+
+    }
+
+    public static void printList(List<?> list) {
+        System.out.print("[");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(list.get(i));
+            if (i < list.size() - 1) System.out.print(", ");
+        }
+
+        System.out.println("]");
+
+
     }
 }

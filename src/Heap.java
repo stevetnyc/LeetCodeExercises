@@ -30,7 +30,6 @@ public class Heap {
             }
         }
     }
-
     static void printHeap(PriorityQueue<double[]> minHeap) {
         int n = minHeap.size();
         for (int i = 0; i < n; i++) {
@@ -40,6 +39,8 @@ public class Heap {
         }
 
     }
+
+
     static int[][] kClosest(int[][] points, int k) {
 
 //        PriorityQueue<int[]> minHeap = new
@@ -72,6 +73,48 @@ public class Heap {
 
     }
 
+    public static List<Integer> findClosestElements(int[] arr, int k, int x) {
+        Integer[] result = new Integer[k];
+        PriorityQueue<Integer[]> diffResults =
+                new PriorityQueue<>((a,b) -> {
+                    if(a[0] != b[0]) {
+                        return Integer.compare(b[0], a[0]);
+                    }
+
+                    if(a[1] != b[1]) {
+                        return Integer.compare(b[1], a[1]);
+                    }
+
+                    return 0;
+                });
+
+
+        for (int i = 0; i < arr.length; i++) {
+
+            Integer[] tmpRes = new Integer[2];
+            tmpRes[0] = Math.abs(arr[i] - x);
+            tmpRes[1] = arr[i];
+            if (diffResults.size() < k) {
+                diffResults.add(tmpRes);
+            } else {
+                Integer[] tmpPeek = diffResults.peek();
+                if (tmpRes[0] < tmpPeek[0] || (tmpRes[0] == tmpPeek[0] && tmpRes[1] < tmpPeek[1])) {
+                    diffResults.poll();
+                    diffResults.add(tmpRes);
+                }
+            }
+        }
+
+        for (int i = 0; i < k; i++) {
+            Integer[] tmpres = diffResults.poll();
+            result[i] = tmpres[1];
+        }
+        Arrays.sort(result);
+
+        List<Integer> resLIst = Arrays.asList(result);
+        return resLIst;
+    }
+
     public static void main(String[] args) {
 //        int[] arr = new int[] {3,2,1,5,6,4};
 //        int[] arr = new int[] {3,2,3,1,2,4,5,5,6};
@@ -83,13 +126,16 @@ public class Heap {
 //        int k = 2;
 
         //        int[][] arr = new int[][] {{3,3},{5,-1},{-2,4}};
-        int[][] arr = new int[][] {{2,10},{-9,-9},{0,8},{-2,-2},{8,9},{-10,-7},{-5,2},{-4,-9}};
+//        int[][] arr = new int[][] {{2,10},{-9,-9},{0,8},{-2,-2},{8,9},{-10,-7},{-5,2},{-4,-9}};
+//        int k = 7;
+//
+//       printArr(kClosest(arr, k));
 
-        int k = 7;
+        int[] arr = {0,0,1,2,3,3,4,7,7,8};
+        int k = 3;
+        int x = 5;
 
-       printArr(kClosest(arr, k));
-
-//        kClosest(arr, k);
+        Utils.printList(findClosestElements(arr, k, x));
 
     }
 }
