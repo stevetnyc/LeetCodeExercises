@@ -117,6 +117,29 @@ public class ArrayExercises {
 
         return  result;
     }
+
+    public static int subarraySum(int[] nums, int k) {
+        //nums = [1,1,1], k = 2
+        int result = 0;
+
+        Map<Integer, Integer> sumsCount = new HashMap<>();
+        sumsCount.put(0, 1);
+
+        int runningTot = 0;
+
+        for (int i = 0; i < nums.length; i++){
+
+            runningTot += nums[i];
+
+            int target = runningTot - k;
+            if (sumsCount.containsKey(target)) {
+                result += sumsCount.get(target);
+            }
+            sumsCount.put(runningTot, sumsCount.getOrDefault(runningTot,0) + 1);
+        }
+
+        return result;
+    }
     public static void main(String[] args) {
 //            int[] fruits = {3,3,3,1,2,1,1,2,3,3,4};
 
@@ -126,8 +149,15 @@ public class ArrayExercises {
 //        System.out.println(threeSum(nums));
 
 //        int[][] intervals = {{1,3},{2,6},{8,10},{15,18}};
-        int[][] intervals = {{1,5},{2,3},{3,4},{4,6}};
-        System.out.println(eraseOverlapIntervals(intervals));
+//        int[][] intervals = {{1,5},{2,3},{3,4},{4,6}};
+//        System.out.println(eraseOverlapIntervals(intervals));
 
+//        int[] nums = {1,1,1};
+//        int[] nums = {1,2,3};
+//        int k = 3;
+//        int[] nums = {1,2,1,2,1,3};
+        int[] nums = {3, 4, 7, 2, -3, 1, 4, 2};
+        int k = 7;
+        System.out.println(subarraySum(nums, k));
     }
 }

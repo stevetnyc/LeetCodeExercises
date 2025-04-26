@@ -37,8 +37,9 @@ public class BinarySearchArray {
     }
     static int minEatingSpeed(int[] piles, int h) {
 
+        Arrays.sort(piles);
         int left = 1;
-        int right = maxElement(piles);
+        int right = piles[piles.length - 1];
         long timeTaken = 0;
         while (left <= right) {
             int mid = (left + right)/2;
