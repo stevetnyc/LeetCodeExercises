@@ -82,29 +82,69 @@ public class TreeExercises {
         return result;
     }
 
+    public static int goodNodes_rcrs(TreeNode root, int max) {
+        if (root == null) return 0;
+
+        int count = 0;
+        if (root.val >= max) {
+            count++;
+        }
+        max = Math.max(max, root.val);
+
+        int left = goodNodes_rcrs(root.left, max);
+        int right = goodNodes_rcrs(root.right, max);
+
+        return left + right + count;
+    }
+
+    public static int goodNodes(TreeNode root) {
+
+        return goodNodes_rcrs(root, 0);
+    }
+
+
+    public static TreeNode lca_rcrs(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) return null;
+
+        if (root == p || root == q) return root;
+
+        TreeNode left = lca_rcrs(root.left, p, q);
+        TreeNode right = lca_rcrs(root.right, p, q);
+
+        if (left != null && right != null) return root;
+
+        return (left != null) ? left : right;
+
+    }
+
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+
+        return lca_rcrs(root, p, q);
+
+    }
+
     public static void main(String[] args) {
 
 //        int[] arr = {1,2,3,4,0,0,0,5};
 //        int[] arr = {1,2};
-        int[] arr = {3,9,20,0,0,15,7};
+////        int[] arr = {3,9,20,0,0,15,7};
+////        TreeNode root = TreeNode.insertLevel(arr, 0);
+//
+////        System.out.println(diameterOfBinaryTree(root));
+//
+//        List<List<Integer>> result = zigzagLevelOrder(root);
+
+//        int[] arr = {3,1,4,3,-999,1,5};
+////        int[] arr = {9,-999,3,6};
+//        TreeNode root = TreeNode.insertLevel(arr, 0);
+//        System.out.println(goodNodes(root));
+
+        Object[] arr = {3,5,1,6,2,0,8,null,null,7,4};
         TreeNode root = TreeNode.insertLevel(arr, 0);
+        TreeNode p = TreeNode.find(root, 5);
+        TreeNode q = TreeNode.find(root, 4);
+        System.out.println(lowestCommonAncestor(root, p, q).val);
 
-//        System.out.println(diameterOfBinaryTree(root));
-
-        List<List<Integer>> result = zigzagLevelOrder(root);
-
-        System.out.print("[");
-        for (List<Integer> l: result) {
-
-            System.out.print("[");
-            for (int i : l) {
-                System.out.print(i + ", ");
-            }
-
-            System.out.print("]");
-        }
-        System.out.print("]");
-        System.out.println();
     }
 
 }
