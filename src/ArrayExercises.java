@@ -140,6 +140,70 @@ public class ArrayExercises {
 
         return result;
     }
+
+    public static int computeDepthSum(List<Object> nestedList, int depth){
+        int sum = 0;
+        for (Object obj1: nestedList) {
+            if (obj1 instanceof Integer) {
+                sum += (int)obj1 * depth;
+            } else {
+               sum += computeDepthSum((List)obj1, depth + 1);
+            }
+        }
+
+        return sum;
+    }
+    public static int depthSum(List<Object> nestedList) {
+        return computeDepthSum(nestedList, 1);
+
+    }
+
+    public static void subsets_rcrs(int[] nums,int currIdx, List<List<Integer>> result, List<Integer> currList) {
+        if (currIdx >= nums.length) {
+            result.add(currList);
+            return;
+        }
+
+        subsets_rcrs(nums, currIdx + 1, result, new ArrayList<>(currList));
+        currList.add(nums[currIdx]);
+        subsets_rcrs(nums, currIdx + 1, result, currList);
+//        currList.remove(currList.size() - 1);
+
+
+
+        return;
+    }
+
+    public static List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> currList = new ArrayList<>();
+
+        subsets_rcrs(nums, 0, result, currList);
+
+        return result;
+    }
+
+    public static boolean checkSubarraySum(int[] nums, int k) {
+//        nums = [23,2,4,6,7], k = 6
+        //nums = [23,2,6,4,7], k = 6
+
+
+        HashMap<Integer, Integer> remainderIdx = new HashMap<>();
+        remainderIdx.put (0, -1);
+        int total = 0;
+        for (int i = 0; i < nums.length; i++ ) {
+            total += nums[i];
+            int rem = total % k;
+
+            if (remainderIdx.containsKey(rem) && i - remainderIdx.get(rem) >= 2) {
+                return true;
+            }
+            remainderIdx.putIfAbsent(rem, i);
+        }
+
+        return false;
+
+    }
     public static void main(String[] args) {
 //            int[] fruits = {3,3,3,1,2,1,1,2,3,3,4};
 
@@ -156,8 +220,24 @@ public class ArrayExercises {
 //        int[] nums = {1,2,3};
 //        int k = 3;
 //        int[] nums = {1,2,1,2,1,3};
-        int[] nums = {3, 4, 7, 2, -3, 1, 4, 2};
-        int k = 7;
-        System.out.println(subarraySum(nums, k));
+//        int[] nums = {3, 4, 7, 2, -3, 1, 4, 2};
+//        int k = 7;
+//{{1,1},2,{1,1}}
+//        List<Object> nestedList = new ArrayList<>();
+//        nestedList.add(new ArrayList<Integer>(){{add(1); add(1);}});
+//        nestedList.add(2);
+//        nestedList.add(new ArrayList<Integer>(){{add(1); add(1);}});
+//        System.out.println(depthSum(nestedList));
+
+
+//        int[] nums = {1,2,3};
+//        List<List<Integer>> result = subsets(nums);
+//
+// c       for (List<Integer> l: result) Utils.printList(l);
+
+//        int[] nums = {23,2,6,4,7};
+        int[] nums = {23,2,6,4,7};
+        int k = 13;
+        System.out.println(checkSubarraySum(nums, k));
     }
 }
