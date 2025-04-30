@@ -26,6 +26,18 @@ public class Utils {
         }
         System.out.println("]");
     }
+
+    static void printArr(double[] arr) {
+        System.out.print("[");
+        for (int x = 0; x < arr.length; x++) {
+            System.out.print(arr[x]);
+            if (x < arr.length - 1) {
+                System.out.print(",");
+            }
+        }
+        System.out.println("]");
+    }
+
     static void printArr(List<Integer> arr) {
         System.out.print("[");
         for (int i: arr) {

@@ -1,3 +1,5 @@
+import com.sun.org.glassfish.gmbal.GmbalException;
+
 import java.util.*;
 
 public class ArrayExercises {
@@ -204,6 +206,84 @@ public class ArrayExercises {
         return false;
 
     }
+
+    public static double[] medianSlidingWindow(int[] nums, int k) {
+
+        // [1,3,-1,-3,5,3,6,7] | k = 3
+        double[] result = new double[nums.length - k + 1];
+        int resIdx = 0;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        boolean oddK = false;
+
+
+        if (k % 2 == 1) {
+            oddK = true;
+        }
+
+        maxHeap.add(nums[0]);
+
+        for (int i = 1; i < nums.length; i++){
+
+            if (nums[i] <= maxHeap.peek()) {
+                maxHeap.add(nums[i]);
+            } else {
+                minHeap.add(nums[i]);
+
+            }
+
+            if (i < k - 1) continue;
+
+            while (maxHeap.size() > minHeap.size() + 1) {
+                minHeap.add(maxHeap.poll());
+            }
+            while (maxHeap.size() < minHeap.size()) {
+                maxHeap.add(minHeap.poll());
+            }
+
+            double median = 0;
+            if (oddK) {
+                median = maxHeap.peek();
+            } else {
+                median = (maxHeap.peek() + minHeap.peek())/2;
+            }
+            result[resIdx++] = median;
+
+            int removeNum = nums[0];
+            if (i >= k) removeNum = nums[i - k + 1];
+            if (maxHeap.contains(removeNum)) {
+                maxHeap.remove(removeNum);
+            } else {
+                minHeap.remove(removeNum);
+            }
+
+        }
+
+//        while (end < nums.length) {
+//            int[] tmpNums = new int[k];
+//            int tmpIdx = 0;
+//            for (int i = start; i <= end; i++) {
+//                tmpNums[tmpIdx++] = nums[i];
+//            }
+//            Arrays.sort(tmpNums);
+//
+//            if (tmpNums.length % 2 == 1) {
+//                result[resIdx] = tmpNums[tmpNums.length / 2 ];
+//            } else {
+//                double tmp1 = tmpNums[(tmpNums.length / 2) - 1 ];
+//                double tmp2 = tmpNums[tmpNums.length / 2 ];
+//                result[resIdx] = ((tmp1 + tmp2)/2);
+//            }
+//            resIdx++;
+//            start++;
+//            end++;
+//
+//        }
+        return result;
+
+    }
+
+
     public static void main(String[] args) {
 //            int[] fruits = {3,3,3,1,2,1,1,2,3,3,4};
 
@@ -236,8 +316,13 @@ public class ArrayExercises {
 // c       for (List<Integer> l: result) Utils.printList(l);
 
 //        int[] nums = {23,2,6,4,7};
-        int[] nums = {23,2,6,4,7};
-        int k = 13;
-        System.out.println(checkSubarraySum(nums, k));
+//        int[] nums = {23,2,6,4,7};
+//        int k = 13;
+//        System.out.println(checkSubarraySum(nums, k));
+
+//        int[] nums = {1,3,-1,-3,5,3,6,7};
+        int k = 4;
+        int[] nums = {1,4,2,3};
+        Utils.printArr(medianSlidingWindow(nums,k));
     }
 }
