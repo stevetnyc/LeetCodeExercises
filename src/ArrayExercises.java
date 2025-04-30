@@ -69,38 +69,34 @@ public class ArrayExercises {
     }
 
     public static int[][] merge(int[][] intervals) {
-//        Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+//        Input: intervals = [[1,3],[2,6],,[8,10],[15,18]]
 //        Output: [[1,6],[8,10],[15,18]]
 
-//
-        List<Integer[]> tmpResults = new ArrayList<>();
+        List<Integer[]> resultList = new ArrayList<>();
 
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
 
         for (int i = 0; i < intervals.length; i++) {
-            Integer[] tmpInt = new  Integer[2];
-            if (tmpResults.size() == 0 || intervals[i][0] >= tmpResults.get(tmpResults.size() - 1)[1]) {
-                tmpInt[0] = intervals[i][0];
-                tmpInt[1] = intervals[i][1];
-                tmpResults.add(tmpInt);
+            if (resultList.size() == 0 || intervals[i][0] >= resultList.get(resultList.size() - 1)[1]) {
+                Integer[] tmpArr = new Integer[2];
+                tmpArr[0] = intervals[i][0];
+                tmpArr[1] = intervals[i][1];
+                resultList.add(tmpArr);
             } else {
-                tmpInt[0] = tmpResults.get(tmpResults.size() - 1)[0];
-                tmpInt[1] = Math.max(tmpResults.get(tmpResults.size() - 1)[1], intervals[i][1]);
-                tmpResults.remove(tmpResults.size() - 1);
-                tmpResults.add(tmpInt);
+                Integer[] tmpArr = new Integer[2];
+                tmpArr[0] = resultList.get(resultList.size() - 1)[0];
+                tmpArr[1] = Math.max(intervals[i][1], resultList.get(resultList.size() - 1)[1]);
+                resultList.remove(resultList.size() - 1);
+                resultList.add(tmpArr);
             }
         }
 
-        int[][] result = new int[tmpResults.size()][2];
-        int idx = 0;
-        for (Integer[] res: tmpResults) {
-            result[idx][0] = res[0];
-            result[idx][1] = res[1];
-            idx++;
+        int[][] result = new int[resultList.size()][2];
+        for (int i = 0; i < resultList.size(); i++) {
+            result[i][0] = resultList.get(i)[0];
+            result[i][1] = resultList.get(i)[1];
         }
-
         return result;
-
     }
 
     public static int eraseOverlapIntervals(int[][] intervals) {
@@ -278,9 +274,10 @@ public class ArrayExercises {
 //        int [] nums = {-1,0,1,2,-1,-4};
 //        System.out.println(threeSum(nums));
 
-//        int[][] intervals = {{1,3},{2,6},{8,10},{15,18}};
+        int[][] intervals = {{1,3},{2,6},{8,10},{15,18}};
 //        int[][] intervals = {{1,5},{2,3},{3,4},{4,6}};
 //        System.out.println(eraseOverlapIntervals(intervals));
+        Utils.printArr(merge(intervals));
 
 //        int[] nums = {1,1,1};
 //        int[] nums = {1,2,3};
@@ -309,9 +306,9 @@ public class ArrayExercises {
 //        int[] nums = {1,3,-1,-3,5,3,6,7};
         //        int[] nums = {1,4,2,3};
 //        int[] nums = {1, 2, 3, 4};
-        int[] nums = {2147483647,1,2,3,4,5,6,7,2147483647};
-        int k = 2;
-
-        Utils.printArr(medianSlidingWindow(nums,k));
+//        int[] nums = {2147483647,1,2,3,4,5,6,7,2147483647};
+//        int k = 2;
+//
+//        Utils.printArr(medianSlidingWindow(nums,k));
     }
 }
