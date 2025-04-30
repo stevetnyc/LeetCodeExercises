@@ -30,6 +30,20 @@ public class DPExercises {
       return dp[len];
     }
 
+    public static int up_rcrs(int m, int n, int currX, int currY, int currCount) {
+        if (currX == m - 1 && currY == n - 1) return 1;
+
+        if (currX >= m || currY >= n) return 0;
+
+
+    }
+    public static int uniquePaths(int m, int n) {
+
+
+
+
+    }
+
 
     public static void main(String[] args) {
 

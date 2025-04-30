@@ -3,37 +3,27 @@ import java.util.*;
 
 public class BFSExercises {
 
-     static class Pair {
-        int x;
-        int y;
-
-        public Pair(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    static Set<Pair> checkNeighbors(int[][] grid, int x, int y) {
-         Set<Pair> result = new HashSet<>();
+    static Set<Utils.Pair> checkNeighbors(int[][] grid, int x, int y) {
+         Set<Utils.Pair> result = new HashSet<>();
 
          if (x > 0) {
              if (grid[x - 1][y] == 1) {
-                 result.add(new Pair(x - 1, y));
+                 result.add(new Utils.Pair(x - 1, y));
              }
          }
          if (x < grid.length - 1) {
              if (grid[x + 1][y] == 1) {
-                 result.add(new Pair(x + 1, y));
+                 result.add(new Utils.Pair(x + 1, y));
              }
          }
         if (y > 0) {
             if (grid[x][y - 1] == 1) {
-                result.add(new Pair(x, y - 1));
+                result.add(new Utils.Pair(x, y - 1));
             }
         }
         if (y < grid[x].length - 1) {
             if (grid[x][y + 1] == 1) {
-                result.add(new Pair(x, y + 1));
+                result.add(new Utils.Pair(x, y + 1));
             }
         }
          return result;
@@ -43,14 +33,14 @@ public class BFSExercises {
         // 0 = empty | 1 = fresh | 2 = rotten
 
         int minutes = 0;
-        Queue<Pair> rottens = new ArrayDeque<>();
-        Set<Pair> visited = new HashSet<>();
+        Queue<Utils.Pair> rottens = new ArrayDeque<>();
+        Set<Utils.Pair> visited = new HashSet<>();
 
         // find and queue iniital rotten
         for (int i = 0; i < grid.length; i++) {
             for (int b = 0; b < grid[i].length; b++) {
                 if (grid[i][b] == 2) {
-                    Set<Pair> freshNeighbors = checkNeighbors(grid, i, b);
+                    Set<Utils.Pair> freshNeighbors = checkNeighbors(grid, i, b);
                     rottens.addAll(freshNeighbors);
                 }
             }
@@ -63,11 +53,11 @@ public class BFSExercises {
             minutes += 1;
             totalRottens = rottens.size();
             for (int i = 0; i < totalRottens; i++) {
-                Pair currPair = rottens.poll();
+                Utils.Pair currPair = rottens.poll();
                 if (!visited.contains(currPair)) {
                     visited.add(currPair);
                     grid[currPair.x][currPair.y] = 2;
-                    Set<Pair> freshNeighbors = checkNeighbors(grid, currPair.x, currPair.y);
+                    Set<Utils.Pair> freshNeighbors = checkNeighbors(grid, currPair.x, currPair.y);
                     rottens.addAll(freshNeighbors);
                 }
             }
@@ -145,7 +135,7 @@ public class BFSExercises {
     }
 
     static int[][] updateMatrix(int[][] mat) {
-         Queue<Pair> cells = new ArrayDeque<>();
+         Queue<Utils.Pair> cells = new ArrayDeque<>();
          int[][] result = new int[mat.length][mat[0].length];
 
          //initialize result
@@ -158,7 +148,7 @@ public class BFSExercises {
         for (int r = 0; r < result.length; r++) {
             for (int c = 0; c < result[r].length; c++) {
                 if (mat[r][c] == 0) {
-                    cells.add(new Pair(r, c));
+                    cells.add(new Utils.Pair(r, c));
                     result[r][c] = 0;
                 }
             }
@@ -168,24 +158,24 @@ public class BFSExercises {
         while (cells.size() > 0) {
             int cellsCount = cells.size();
             for (int i = 0; i < cellsCount; i++) {
-                Pair currPair = cells.poll();
+                Utils.Pair currPair = cells.poll();
                 int x = currPair.x;
                 int y = currPair.y;
 
                 if (x > 0 && result[x - 1][y] == -1) {
-                    cells.add(new Pair(x - 1, y));
+                    cells.add(new Utils.Pair(x - 1, y));
                     result[x-1][y] = distance;
                 }
                 if (x < result.length - 1 && result[x + 1][y] == -1) {
-                    cells.add(new Pair(x + 1, y));
+                    cells.add(new Utils.Pair(x + 1, y));
                     result[x+1][y] = distance;
                 }
                 if (y > 0 && result[x][y - 1] == -1) {
-                    cells.add(new Pair(x,  y - 1));
+                    cells.add(new Utils.Pair(x,  y - 1));
                     result[x][y-1] = distance;
                 }
                 if (y < result[x].length - 1 && result[x][y + 1] == -1) {
-                    cells.add(new Pair(x,  y + 1));
+                    cells.add(new Utils.Pair(x,  y + 1));
                     result[x][y+1] = distance;
                 }
             }

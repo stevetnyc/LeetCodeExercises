@@ -3,6 +3,16 @@ import java.util.PriorityQueue;
 
 public class Utils {
 
+    static class Pair {
+        int x;
+        int y;
+
+        public Pair(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     static void printArr(int[][] arr) {
         for (int x = 0; x < arr.length; x++) {
             System.out.print("[");
