@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class DPExercises {
 
@@ -30,24 +28,28 @@ public class DPExercises {
       return dp[len];
     }
 
-    public static int up_rcrs(int m, int n, int currX, int currY, int currCount) {
-        if (currX == m - 1 && currY == n - 1) return 1;
+    public static long uniquePaths(int m, int n) {
+        long[][] dp = new long[m][n];
 
-        if (currX >= m || currY >= n) return 0;
+        for (int i = 0; i < m ; i++) dp[i][0] = 1;
+        for (int j = 0; j < n ; j++) dp[0][j] = 1;
 
-
-    }
-    public static int uniquePaths(int m, int n) {
-
-
-
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m-1][n-1];
 
     }
 
 
     public static void main(String[] args) {
 
-        String code = "06";
-        System.out.println(numDecodings(code));
+//        String code = "06";
+//        System.out.println(numDecodings(code));
+        int m = 9;
+        int n = 9;
+        System.out.println(uniquePaths(m, n));
     }
 }
