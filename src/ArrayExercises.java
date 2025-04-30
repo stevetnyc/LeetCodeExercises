@@ -210,7 +210,14 @@ public class ArrayExercises {
     public static double[] medianSlidingWindow(int[] nums, int k) {
 
         // [1,3,-1,-3,5,3,6,7] | k = 3
+
         double[] result = new double[nums.length - k + 1];
+        if (k ==1) {
+            for (int i = 0; i < nums.length; i++) {
+                result[i] = nums[i];
+            }
+           return result;
+        }
         int resIdx = 0;
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
@@ -225,7 +232,7 @@ public class ArrayExercises {
 
         for (int i = 1; i < nums.length; i++){
 
-            if (nums[i] <= maxHeap.peek()) {
+            if (maxHeap.isEmpty() || nums[i] <= maxHeap.peek()) {
                 maxHeap.add(nums[i]);
             } else {
                 minHeap.add(nums[i]);
@@ -245,7 +252,7 @@ public class ArrayExercises {
             if (oddK) {
                 median = maxHeap.peek();
             } else {
-                median = (maxHeap.peek() + minHeap.peek())/2;
+                median = ((double)maxHeap.peek() + (double)minHeap.peek())/2;
             }
             result[resIdx++] = median;
 
@@ -258,27 +265,6 @@ public class ArrayExercises {
             }
 
         }
-
-//        while (end < nums.length) {
-//            int[] tmpNums = new int[k];
-//            int tmpIdx = 0;
-//            for (int i = start; i <= end; i++) {
-//                tmpNums[tmpIdx++] = nums[i];
-//            }
-//            Arrays.sort(tmpNums);
-//
-//            if (tmpNums.length % 2 == 1) {
-//                result[resIdx] = tmpNums[tmpNums.length / 2 ];
-//            } else {
-//                double tmp1 = tmpNums[(tmpNums.length / 2) - 1 ];
-//                double tmp2 = tmpNums[tmpNums.length / 2 ];
-//                result[resIdx] = ((tmp1 + tmp2)/2);
-//            }
-//            resIdx++;
-//            start++;
-//            end++;
-//
-//        }
         return result;
 
     }
@@ -321,8 +307,11 @@ public class ArrayExercises {
 //        System.out.println(checkSubarraySum(nums, k));
 
 //        int[] nums = {1,3,-1,-3,5,3,6,7};
-        int k = 4;
-        int[] nums = {1,4,2,3};
+        //        int[] nums = {1,4,2,3};
+//        int[] nums = {1, 2, 3, 4};
+        int[] nums = {2147483647,1,2,3,4,5,6,7,2147483647};
+        int k = 2;
+
         Utils.printArr(medianSlidingWindow(nums,k));
     }
 }
