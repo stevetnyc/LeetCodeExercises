@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringExercises {
 
 
@@ -46,11 +49,37 @@ public class StringExercises {
         return  result;
     }
 
-    public static void main(String[] args) {
-        String s = "PAYPALISHIRING";
-        int numRows = 4;
+    public static void gp_rcrs(String s, int n, int openCount, int closeCount, List<String> result){
+        if (s.length() == n * 2) {
+            result.add(s);
+            return;
+        }
 
-        System.out.println(convert(s, numRows));
+        if (openCount < n) {
+            gp_rcrs(s + "(", n, openCount + 1, closeCount, result);
+        }
+        if (closeCount < openCount) {
+            gp_rcrs(s + ")", n, openCount, closeCount + 1, result);
+        }
+    }
+    public static List<String> generateParenthesis(int n) {
+        // n= 3: ["((()))","(()())","(())()","()(())","()()()"]
+
+        List<String> result = new ArrayList<>();
+        gp_rcrs("", n, 0, 0, result);
+        return result;
+    }
+
+    public static void main(String[] args) {
+
+        int n = 3;
+
+        Utils.printList(generateParenthesis(n));
+
+//        String s = "PAYPALISHIRING";
+//        int numRows = 4;
+//
+//        System.out.println(convert(s, numRows));
 
 
     }
