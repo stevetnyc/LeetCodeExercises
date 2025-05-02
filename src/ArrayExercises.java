@@ -1,5 +1,6 @@
 import com.sun.org.glassfish.gmbal.GmbalException;
 
+import javax.rmi.CORBA.Util;
 import java.util.*;
 
 public class ArrayExercises {
@@ -59,7 +60,39 @@ public class ArrayExercises {
                     while (right >= left && nums[right] == nums[right - 1]) right--;
                     left++;
                     right--;
+                }
+            }
+        }
+        return result;
 
+    }
+
+    public static List<List<Integer>> fourSum(int[] nums, int target) {
+//        nums = [1,0,-1,0,-2,2]
+//        [-2, -1, 0, 0, 1, 2]
+        List<List<Integer>> result = new ArrayList<>();
+
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length - 3; i++) {
+            for (int j = i + 1; j < nums.length - 2; j++) {
+                while (i > 0 && nums[i] == nums[i - 1]) continue;
+
+                int left = j + 1;
+                int right = nums.length - 1;
+                while (left < right) {
+                    int total = nums[i] + nums[left] + nums[right] + nums[j];
+                    if (total < target) {
+                        left++;
+                    } else if (total > target) {
+                        right--;
+                    } else {
+                        result.add(new ArrayList<Integer>(Arrays.asList(nums[i], nums[left], nums[right], nums[j])));
+                        right--;
+                        left++;
+                        while (left < right && nums[left] == nums[left - 1]) left++;
+                        while (left < right && nums[right] == nums[right + 1]) right--;
+                    }
                 }
             }
         }
@@ -267,17 +300,24 @@ public class ArrayExercises {
 
 
     public static void main(String[] args) {
-//            int[] fruits = {3,3,3,1,2,1,1,2,3,3,4};
+//
+
+        int[] nums = {1,0,-1,0,-2,2};
+        int target = 0;
+        Utils.printList(fourSum(nums, target));
+
+
+//        int[] fruits = {3,3,3,1,2,1,1,2,3,3,4};
 
 //            System.out.println(totalFruit(fruits));
 
 //        int [] nums = {-1,0,1,2,-1,-4};
 //        System.out.println(threeSum(nums));
 
-        int[][] intervals = {{1,3},{2,6},{8,10},{15,18}};
+//        int[][] intervals = {{1,3},{2,6},{8,10},{15,18}};
 //        int[][] intervals = {{1,5},{2,3},{3,4},{4,6}};
 //        System.out.println(eraseOverlapIntervals(intervals));
-        Utils.printArr(merge(intervals));
+//        Utils.printArr(merge(intervals));
 
 //        int[] nums = {1,1,1};
 //        int[] nums = {1,2,3};
@@ -310,5 +350,6 @@ public class ArrayExercises {
 //        int k = 2;
 //
 //        Utils.printArr(medianSlidingWindow(nums,k));
+
     }
 }
