@@ -298,13 +298,43 @@ public class ArrayExercises {
 
     }
 
+    public static int maxArea(int[] height) {
+//        Input: height = [1,8,6,2,5,4,8,3,7]
+//        Output: 49
+
+        int max = 0;
+        int start = 0;
+        int end = height.length - 1;
+
+        while (start < end) {
+            int min = Math.min(height[start], height[end]);
+            max = Math.max(max, (end - start) * min);
+            if (height[start] < height[end]) {
+                start++;
+            } else {
+                end--;
+            }
+        }
+
+//        for (int start = 0; start < height.length - 1; start++) {
+//            for (int end = start + 1; end < height.length ; end++) {
+//                int min = Math.min(height[start], height[end]);
+//                max = Math.max(max, (end - start) * min);
+//            }
+//        }
+        return max;
+    }
 
     public static void main(String[] args) {
 //
+        int[] height = {1,8,6,2,5,4,8,3,7};
+//        int[] height = {1,1};
+        System.out.println(maxArea(height));
 
-        int[] nums = {1,0,-1,0,-2,2};
-        int target = 0;
-        Utils.printList(fourSum(nums, target));
+
+//        int[] nums = {1,0,-1,0,-2,2};
+//        int target = 0;
+//        Utils.printList(fourSum(nums, target));
 
 
 //        int[] fruits = {3,3,3,1,2,1,1,2,3,3,4};
