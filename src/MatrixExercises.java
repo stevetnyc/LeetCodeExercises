@@ -1,6 +1,6 @@
-import java.util.ArrayList;
+import java.util.*;
 //import java.util.HashSet;
-import java.util.List;
+
 //import java.util.Set;
 
 public class MatrixExercises {
@@ -87,14 +87,95 @@ public class MatrixExercises {
         Utils.printArr(matrix);
     }
 
+    public static boolean isValidSudoku(char[][] board) {
+        boolean result = true;
+        int[][] rowMap = new int[9][10];
+        int[][] colMap = new int[9][10];
+        int[][] subMap = new int[9][10];
+        Set<Character> charSet = new HashSet<>();
+        charSet.add('1');
+        charSet.add('2');
+        charSet.add('3');
+        charSet.add('4');
+        charSet.add('5');
+        charSet.add('6');
+        charSet.add('7');
+        charSet.add('8');
+        charSet.add('9');
+
+
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c ++) {
+                int subMat = 0;
+
+                if (r < 3 ) {
+                    if (c < 3) {
+                        subMat = 0;
+                    } else if (c < 6) {
+                        subMat = 1;
+                    } else {
+                        subMat = 2;
+                    }
+                } else if (r < 6) {
+                    if (c < 3) {
+                        subMat = 3;
+                    } else if (c < 6) {
+                        subMat = 4;
+                    } else {
+                        subMat = 5;
+                    }
+                } else {
+                    if (c < 3) {
+                        subMat = 6;
+                    } else if (c < 6) {
+                        subMat = 7;
+                    } else {
+                        subMat = 8;
+                    }
+                }
+
+                if (board[r][c] != '.') {
+                    if (charSet.contains(board[r][c])) {
+                        int currNum = Integer.valueOf(board[r][c]) - '0';
+                        if (rowMap[r][currNum] > 0 || colMap[c][currNum] > 0 || subMap[subMat][currNum] > 0) {
+                            return false;
+                        } else {
+                            rowMap[r][currNum] = 1;
+                            colMap[c][currNum] = 1;
+                            subMap[subMat][currNum] = 1;
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return result;
+
+    }
+
     public static void main(String[] args) {
+
+        char[][] board =
+                {{'8','3','.','.','7','.','.','.','.'}
+                        ,{'6','.','.','1','9','5','.','.','.'}
+                        ,{'.','9','8','.','.','.','.','6','.'}
+                        ,{'8','.','.','.','6','.','.','.','3'}
+                        ,{'4','.','.','8','.','3','.','.','1'}
+                        ,{'7','.','.','.','2','.','.','.','6'}
+                        ,{'.','6','.','.','.','.','2','8','.'}
+                        ,{'.','.','.','4','1','9','.','.','5'}
+                        ,{'.','.','.','.','8','.','.','7','9'}};
+
+        System.out.println(isValidSudoku(board));
 
 //        int[][] arr = {{1,2,3},{4,5,6},{7,8,9}};
 //        int[][] arr = {{1,2,3,4},{5,6,7,8},{9,10,11,12}};
 //        Utils.printArr(spiralOrder(arr));
 //        int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
-        int[][] matrix = {{5,1,9,11},{2,4,8,10},{13,3,6,7},{15,14,12,16}};
-        rotate(matrix);
+//        int[][] matrix = {{5,1,9,11},{2,4,8,10},{13,3,6,7},{15,14,12,16}};
+//        rotate(matrix);
 
     }
 
