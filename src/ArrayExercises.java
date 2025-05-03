@@ -324,12 +324,59 @@ public class ArrayExercises {
 //        }
         return max;
     }
+    public static int[] searchRange(int[] nums, int target) {
+//        nums = [5,7,7,8,8,10], target = 8
+
+
+        int start = 0;
+        int end = nums.length - 1;
+        int[] result = new int[2];
+
+        if (nums.length == 1) {
+            if (nums[0] == target) {
+                result[0] = 0;
+                result[1] = 0;
+            } else {
+                result[0] = -1;
+                result[1] = -1;
+            }
+            return result;
+        }
+
+        while (start <= end) {
+            int mid = (end + start) / 2;
+            if (nums[mid] == target) {
+                int left = mid;
+                int right = mid;
+                while (left > 0 && nums[left - 1] == target) left--;
+                while (right < nums.length - 1 && nums[right + 1] == target) right++;
+
+                result[0] = left;
+                result[1] = right;
+                return result;
+            } else if (nums[mid] > target) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+
+        }
+        result[0] = -1;
+        result[1] = -1;
+        return result;
+    }
 
     public static void main(String[] args) {
-//
-        int[] height = {1,8,6,2,5,4,8,3,7};
-//        int[] height = {1,1};
-        System.out.println(maxArea(height));
+
+
+//        int[] nums = {5,7,7,8,8,10};
+        int[] nums = {1, 4};
+        int target = 4;
+        Utils.printArr(searchRange(nums, target));
+
+//        int[] height = {1,8,6,2,5,4,8,3,7};
+////        int[] height = {1,1};
+//        System.out.println(maxArea(height));
 
 
 //        int[] nums = {1,0,-1,0,-2,2};
