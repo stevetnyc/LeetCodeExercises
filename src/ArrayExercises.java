@@ -366,13 +366,52 @@ public class ArrayExercises {
         return result;
     }
 
+//    private List<List<Integer>> result = new ArrayList<>();
+//    private List<Integer> currCandidates = new ArrayList<>();
+
+    public static void cs_rcrs(int[] candidates, int target, List<List<Integer>> result,  List<Integer> currCandidates, int currTotal, int startIdx) {
+        if (currTotal == 0) {
+            result.add(new ArrayList<> (currCandidates));
+            return;
+        }
+        if (currTotal < 0) return;
+
+        for (int i = startIdx; i < candidates.length; i++) {
+            currCandidates.add(candidates[i]);
+            cs_rcrs(candidates, target, result, currCandidates, currTotal - candidates[i], i);
+            currCandidates.remove(currCandidates.size() - 1);
+        }
+
+//        currCandidates.add(candidates[startIdx]);
+//        cs_rcrs(candidates, target,startIdx + 1, currTotal);
+//        currCandidates.remove(currCandidates.size() - 1);
+//        cs_rcrs(candidates, target, startIdx, currTotal - candidates[startIdx]);
+
+    }
+    public static List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+//        List<Integer> currCandidates = new ArrayList<>();
+
+        Arrays.sort(candidates);
+        cs_rcrs(candidates, target, result, new ArrayList<>(), target, 0);
+        return result;
+
+    }
+
     public static void main(String[] args) {
 
 
+        int[] candidates = {2,3,6,7};
+        int target = 7;
+
+        ArrayExercises ae = new ArrayExercises();
+
+        Utils.printList(combinationSum(candidates, target));
+
 //        int[] nums = {5,7,7,8,8,10};
-        int[] nums = {1, 4};
-        int target = 4;
-        Utils.printArr(searchRange(nums, target));
+//        int[] nums = {1, 4};
+//        int target = 4;
+//        Utils.printArr(searchRange(nums, target));
 
 //        int[] height = {1,8,6,2,5,4,8,3,7};
 ////        int[] height = {1,1};
