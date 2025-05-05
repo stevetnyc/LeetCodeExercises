@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class StringExercises {
 
@@ -101,11 +100,80 @@ public class StringExercises {
 
     }
 
+    public static List<List<String>> groupAnagrams(String[] strs) {
+//        Input: strs = ["eat","tea","tan","ate","nat","bat"]
+//        Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+
+        Map<String, List<String>> foundMap = new HashMap<>();
+        for (int i = 0; i < strs.length; i++) {
+            char[] str1Arr = strs[i].toCharArray();
+            Arrays.sort(str1Arr);
+            String newStr = new String(str1Arr);
+            foundMap.putIfAbsent(newStr, new ArrayList<>());
+            foundMap.get(newStr).add(strs[i]);
+        }
+
+
+        return new ArrayList<>(foundMap.values());
+
+    }
+
+    public static boolean isPal(String s, int low, int high) {
+
+        while (low < high) {
+            if (s.charAt(low) != s.charAt(high)) return false;
+            low++;
+            high--;
+        }
+
+        return true;
+    }
+
+    public static String longestPalindrome(String s) {
+        //  s = "xxxmadamimadamzaaax"
+        int maxLen = 0;
+        int start = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j <= 1; j++) {
+                int low = i;
+                int high = i + j;
+                while (low >= 0 && high < s.length() && s.charAt(low) == s.charAt(high)) {
+                    if (high - low + 1 > maxLen) {
+                        start = low;
+                        maxLen = high - low + 1;
+                    }
+                    low--;
+                    high++;
+                }
+
+
+
+            }
+
+        }
+//        for (int i = 0; i < s.length(); i++) {
+//            for (int j = 1; j < s.length(); j++) {
+//                if (isPal(s, i, j) && j - i + 1 > maxLen) {
+//                    maxLen = j - i + 1;
+//                    start = i;
+//                }
+//            }
+//
+//        }
+        return s.substring(start, start + maxLen);
+    }
+
     public static void main(String[] args) {
 
 
-        String num1 = "15", num2 = "100";
-        System.out.println(multiply(num1, num2));
+        String s = "xxxmadamimadamzaaax";
+        System.out.println(longestPalindrome(s));
+//        String[] strs = {"eat","tea","tan","ate","nat","bat"};
+//        Utils.printList(groupAnagrams(strs));
+//        String num1 = "15", num2 = "100";
+//        System.out.println(multiply(num1, num2));
 
 //        int n = 3;
 //
