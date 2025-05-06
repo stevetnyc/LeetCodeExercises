@@ -48,24 +48,24 @@ public class StringExercises {
         return  result;
     }
 
-    public static void gp_rcrs(String s, int n, int openCount, int closeCount, List<String> result){
-        if (s.length() == n * 2) {
-            result.add(s);
+    public static void gp_rcrs(int n, String currString, List<String> result, int openCount, int closedCount) {
+        if (currString.length() == n * 2) {
+            result.add(currString);
             return;
         }
-
         if (openCount < n) {
-            gp_rcrs(s + "(", n, openCount + 1, closeCount, result);
+            gp_rcrs(n, currString +"(", result, openCount + 1, closedCount);
         }
-        if (closeCount < openCount) {
-            gp_rcrs(s + ")", n, openCount, closeCount + 1, result);
+        if (closedCount < openCount) {
+            gp_rcrs(n, currString +")", result, openCount, closedCount + 1);
         }
+
     }
     public static List<String> generateParenthesis(int n) {
         // n= 3: ["((()))","(()())","(())()","()(())","()()()"]
 
         List<String> result = new ArrayList<>();
-        gp_rcrs("", n, 0, 0, result);
+        gp_rcrs(n,"", result, 0, 0);
         return result;
     }
 
@@ -167,9 +167,11 @@ public class StringExercises {
 
     public static void main(String[] args) {
 
+        int n = 3;
+        Utils.printList(generateParenthesis(n));
 
-        String s = "xxxmadamimadamzaaax";
-        System.out.println(longestPalindrome(s));
+//        String s = "xxxmadamimadamzaaax";
+//        System.out.println(longestPalindrome(s));
 //        String[] strs = {"eat","tea","tan","ate","nat","bat"};
 //        Utils.printList(groupAnagrams(strs));
 //        String num1 = "15", num2 = "100";
