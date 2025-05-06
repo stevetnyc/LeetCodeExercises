@@ -1,3 +1,4 @@
+import javax.rmi.CORBA.Util;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Stack;
@@ -191,18 +192,58 @@ public class LinkedListExercises {
 
         return arrList;
     }
+
+    public static ListNode rotateRight(ListNode head, int k) {
+//        Input: head = [1,2,3,4,5], k = 2
+//        Output: [4,5,1,2,3]
+
+
+        if (head == null || head.next == null) return head;
+
+        ListNode oldTail = head;
+        ListNode newTail = head;
+        ListNode currNode = head;
+        int length = 0;
+
+        //find length
+        while (currNode != null) {
+            length++;
+            currNode = currNode.next;
+        }
+
+        k = k % length;
+        if (k == 0) return  head;
+
+        for (int i = 1; i <= k; i++) {
+            oldTail = oldTail.next;
+        }
+
+
+        while (oldTail.next != null) {
+            oldTail = oldTail.next;
+            newTail = newTail.next;
+        }
+
+        ListNode newHead = newTail.next;
+        newTail.next = null;
+        oldTail.next = head;
+
+        return newHead;
+    }
     public static void main(String[] args) {
 
-        ListNode[] arrList = initArr();
+//        ListNode[] arrList = initArr();
 
-//        ListNode head = new ListNode(1);
-//        head.next = new ListNode(2);
-//        head.next.next = new ListNode(3);
-//        head.next.next.next = new ListNode(4);
-//        head.next.next.next.next = new ListNode(5);
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
 //        head.next.next.next.next.next = new ListNode(6);
+        int k = 2;
+        Utils.printList(rotateRight(head, k));
 
-        printList(mergeKLists(arrList));
+//        printList(mergeKLists(arrList));
 
 //        System.out.println(isPalindrome(head));
     }

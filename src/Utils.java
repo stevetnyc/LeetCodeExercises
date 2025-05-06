@@ -1,3 +1,4 @@
+import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -76,6 +77,18 @@ public class Utils {
 
         System.out.println("]");
 
+
+    }
+
+    public static void printList(ListNode head) {
+        System.out.print("[");
+        ListNode currNode = head;
+        while (currNode != null) {
+            System.out.print(currNode.val);
+            if (currNode.next != null) System.out.print(", ");
+            currNode = currNode.next;
+        }
+        System.out.println("]");
 
     }
 }
