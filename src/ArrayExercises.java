@@ -398,15 +398,45 @@ public class ArrayExercises {
 
     }
 
+
+    public static int jump(int[] nums) {
+//        nums = [2,3,1,1,4]
+
+        if (nums.length <= 2) return nums.length - 1;
+        int result = 0;
+        int maxReach = 0;
+        int lastJumpMaxReach = 0;
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxReach = Math.max(maxReach, i + nums[i]);
+
+            if (maxReach >= nums.length - 1) {
+                result++;
+                break;
+            }
+            if (i == lastJumpMaxReach) {
+                lastJumpMaxReach = maxReach;
+               result++;
+            }
+
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
 
 
-        int[] candidates = {2,3,6,7};
-        int target = 7;
+//        int[] nums = {2,3,0,1,4};
+        int[] nums = {1,2,3};
+//        int[] nums = {1,2,1,1,1};
+        System.out.println(jump(nums));
 
-        ArrayExercises ae = new ArrayExercises();
-
-        Utils.printList(combinationSum(candidates, target));
+//        int[] candidates = {2,3,6,7};
+//        int target = 7;
+//
+//        ArrayExercises ae = new ArrayExercises();
+//
+//        Utils.printList(combinationSum(candidates, target));
 
 //        int[] nums = {5,7,7,8,8,10};
 //        int[] nums = {1, 4};
