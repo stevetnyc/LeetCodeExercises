@@ -123,7 +123,33 @@ public class TreeExercises {
 
     }
 
+
+    public static boolean ivb_rcrs(TreeNode node, long currMin, long currMax) {
+        if (node == null) return true;
+
+        if (node.val <= currMin || node.val >= currMax) {
+            return false;
+        }
+
+        return ivb_rcrs(node.left, currMin, node.val) && ivb_rcrs(node.right, node.val, currMax);
+    }
+
+
+    public static boolean isValidBST(TreeNode root) {
+
+        return ivb_rcrs(root, Long.MIN_VALUE, Long.MAX_VALUE);
+
+    }
+
     public static void main(String[] args) {
+
+//        Integer[] arr ={2,1,3};
+//        Object[] arr = {5,1,4,null,null,3,6};
+        Object[] arr = {5,4,6,null,null,3,7};
+        TreeNode root = TreeNode.insertLevel(arr, 0);
+        System.out.println(isValidBST(root));
+
+
 
 //        int[] arr = {1,2,3,4,0,0,0,5};
 //        int[] arr = {1,2};
@@ -139,11 +165,11 @@ public class TreeExercises {
 //        TreeNode root = TreeNode.insertLevel(arr, 0);
 //        System.out.println(goodNodes(root));
 
-        Object[] arr = {3,5,1,6,2,0,8,null,null,7,4};
-        TreeNode root = TreeNode.insertLevel(arr, 0);
-        TreeNode p = TreeNode.find(root, 5);
-        TreeNode q = TreeNode.find(root, 4);
-        System.out.println(lowestCommonAncestor(root, p, q).val);
+//        Object[] arr = {3,5,1,6,2,0,8,null,null,7,4};
+//        TreeNode root = TreeNode.insertLevel(arr, 0);
+//        TreeNode p = TreeNode.find(root, 5);
+//        TreeNode q = TreeNode.find(root, 4);
+//        System.out.println(lowestCommonAncestor(root, p, q).val);
 
     }
 
