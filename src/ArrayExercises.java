@@ -423,13 +423,27 @@ public class ArrayExercises {
         return result;
     }
 
+    public static int maxProfit(int[] prices) {
+//        prices = [7,1,5,3,6,4]
+        int totalProfit  = 0;
+        for (int i = 1; i < prices.length; i++) {
+            int dailyProfit = Math.max(0, prices[i] - prices[i - 1]);
+            totalProfit += dailyProfit;
+        }
+
+        return totalProfit;
+    }
+
     public static void main(String[] args) {
 
 
+        int[] prices = {1,2,3,4,6};
+        System.out.println(maxProfit(prices));
+
 //        int[] nums = {2,3,0,1,4};
-        int[] nums = {1,2,3};
-//        int[] nums = {1,2,1,1,1};
-        System.out.println(jump(nums));
+//        int[] nums = {1,2,3};
+////        int[] nums = {1,2,1,1,1};
+//        System.out.println(jump(nums));
 
 //        int[] candidates = {2,3,6,7};
 //        int target = 7;
