@@ -155,20 +155,63 @@ public class MatrixExercises {
 
     }
 
+
+    public static int shortestPathBinaryMatrix(int[][] grid) {
+//        {0,0,0}
+//        {1,1,0}
+//        {1,1,0}
+        if (grid[0][0] != 0) {
+            return -1;
+        }
+
+        Queue<int[]> cellQueue = new ArrayDeque<>();
+        boolean[][] visited = new boolean[grid.length][grid[0].length];
+
+        visited[0][0] = true;
+        cellQueue.offer(new int[] {0, 0});
+
+        for (int currPath = 1; !cellQueue.isEmpty(); currPath++) {
+            for (int l = cellQueue.size(); l > 0; l--) {
+                int[] currCell = cellQueue.poll();
+                int r = currCell[0];
+                int c = currCell[1];
+                if (r == grid.length - 1 && c == grid[0].length - 1) {
+                    return currPath;
+                }
+
+                for (int i = r - 1; i <= r + 1; i++) {
+                    for (int j = c - 1; j <= c + 1; j++) {
+                        if (i >= 0 && i < grid.length && j >= 0 && j < grid[0].length && !visited[i][j] && grid[i][j] == 0) {
+                            visited[i][j] = true;
+                            cellQueue.offer(new int[]{i, j});
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return -1;
+
+    }
+
     public static void main(String[] args) {
 
-        char[][] board =
-                {{'8','3','.','.','7','.','.','.','.'}
-                        ,{'6','.','.','1','9','5','.','.','.'}
-                        ,{'.','9','8','.','.','.','.','6','.'}
-                        ,{'8','.','.','.','6','.','.','.','3'}
-                        ,{'4','.','.','8','.','3','.','.','1'}
-                        ,{'7','.','.','.','2','.','.','.','6'}
-                        ,{'.','6','.','.','.','.','2','8','.'}
-                        ,{'.','.','.','4','1','9','.','.','5'}
-                        ,{'.','.','.','.','8','.','.','7','9'}};
+        int[][] grid = {{0,0,0},{1,1,0},{1,1,0}};
+        System.out.println(shortestPathBinaryMatrix(grid));
 
-        System.out.println(isValidSudoku(board));
+//        char[][] board =
+//                {{'8','3','.','.','7','.','.','.','.'}
+//                        ,{'6','.','.','1','9','5','.','.','.'}
+//                        ,{'.','9','8','.','.','.','.','6','.'}
+//                        ,{'8','.','.','.','6','.','.','.','3'}
+//                        ,{'4','.','.','8','.','3','.','.','1'}
+//                        ,{'7','.','.','.','2','.','.','.','6'}
+//                        ,{'.','6','.','.','.','.','2','8','.'}
+//                        ,{'.','.','.','4','1','9','.','.','5'}
+//                        ,{'.','.','.','.','8','.','.','7','9'}};
+//
+//        System.out.println(isValidSudoku(board));
 
 //        int[][] arr = {{1,2,3},{4,5,6},{7,8,9}};
 //        int[][] arr = {{1,2,3,4},{5,6,7,8},{9,10,11,12}};
@@ -176,6 +219,7 @@ public class MatrixExercises {
 //        int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
 //        int[][] matrix = {{5,1,9,11},{2,4,8,10},{13,3,6,7},{15,14,12,16}};
 //        rotate(matrix);
+
 
     }
 
