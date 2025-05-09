@@ -148,20 +148,10 @@ public class StringExercises {
                     high++;
                 }
 
-
-
             }
 
         }
-//        for (int i = 0; i < s.length(); i++) {
-//            for (int j = 1; j < s.length(); j++) {
-//                if (isPal(s, i, j) && j - i + 1 > maxLen) {
-//                    maxLen = j - i + 1;
-//                    start = i;
-//                }
-//            }
-//
-//        }
+
         return s.substring(start, start + maxLen);
     }
 
@@ -220,13 +210,67 @@ public class StringExercises {
 
     }
 
+
+
+    public static boolean wordBreak(String s, List<String> wordDict) {
+        boolean[] tracker = new boolean[s.length() + 1];
+        tracker[0] = true;
+
+        for (int j = 1; j <= s.length(); j++) {
+            for (int i = 0; i < j; i++) {
+                if (tracker[i] && wordDict.contains(s.substring(i, j))) {
+                    tracker[j] = true;
+                    break;
+                }
+            }
+        }
+
+        return tracker[s.length()];
+    }
+
+    public static boolean exist_rcrs(char[][] board, String word, int r, int c, int idx, boolean[][]visited) {
+//        board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+        if (idx == word.length()) return true;
+        if (r >= board.length || c >= board[0].length || r < 0 || c < 0 || visited[r][c] ||
+                word.charAt(idx) != board[r][c]) return false;
+
+        visited[r][c] = true;
+        return exist_rcrs(board, word, r + 1, c, idx + 1, visited) ||
+                    exist_rcrs(board, word, r, c + 1, idx + 1, visited) ||
+                    exist_rcrs(board, word, r - 1, c, idx + 1, visited) ||
+                    exist_rcrs(board, word, r, c - 1, idx + 1, visited);
+    }
+
+    public static boolean exist(char[][] board, String word) {
+
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++){
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == word.charAt(0) && exist_rcrs(board,word, i, j, 0, visited)) return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
 
-        String string1 = "aabcc";
-        String string2 = "dbbca";
-        String string3 = "aadbbcbcac";
 
-        System.out.println(isInterleave(string1, string2, string3));
+//        board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+
+//        char[][] board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+//        String word = "ABCCED";
+        char[][] board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+        String word = "SEE";
+        System.out.println(exist(board, word));
+//        String s = "leetscode";
+//        String[] arr = {"leet", "code", "leets"};
+//        List<String> wordDict = new ArrayList<>(Arrays.asList(arr));
+//        System.out.println(wordBreak(s, wordDict));
+//        String string1 = "aabcc";
+//        String string2 = "dbbca";
+//        String string3 = "aadbbcbcac";
+//
+//        System.out.println(isInterleave(string1, string2, string3));
 
 
 //        String word1 = "intention";
