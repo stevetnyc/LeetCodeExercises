@@ -141,13 +141,93 @@ public class TreeExercises {
 
     }
 
+    public static int ft_rcrs(TreeNode node) {
+        if (node == null) return 0;
+
+        int left = ft_rcrs(node.left);
+        int right = ft_rcrs(node.right);
+
+        TreeExercises.tilt += Math.abs(left - right);
+        return left + right + node.val;
+
+    }
+
+    public static int tilt = 0;
+    public static int findTilt(TreeNode root) {
+
+
+        ft_rcrs(root);
+
+        return TreeExercises.tilt;
+
+    }
+
+    public static boolean hasCycle(Map<Integer, Set<Integer>> adjList, int currNode,  boolean[] visited, int parent ){
+        visited[currNode] = true;
+        Set<Integer> nodes = adjList.get(currNode);
+        for (int node : nodes) {
+            if (visited[node] && node != parent) return true;
+            if (!visited[node] && hasCycle(adjList, node, visited, currNode)) return true;
+        }
+        return false;
+    }
+
+    public static boolean validTree(int n, int[][] edges) {
+        Map<Integer, Set<Integer>> adjList = new HashMap<>();
+        boolean[] visited = new boolean[n];
+        Queue<Integer> nodeQueue = new ArrayDeque<>();
+
+        for (int i = 0; i < n; i++) {
+            adjList.put(i, new HashSet<Integer>());
+        }
+
+        for (int[] e: edges) {
+            adjList.get(e[0]).add(e[1]);
+            adjList.get(e[1]).add(e[0]);
+        }
+
+        nodeQueue.offer(0);
+        visited[0] = true;
+
+        while (!nodeQueue.isEmpty()) {
+            int currNode = nodeQueue.poll();
+            for (int neighbor: adjList.get(currNode)) {
+                if (!visited[neighbor]) {
+                    nodeQueue.offer(neighbor);
+                    visited[neighbor] = true;
+                }
+            }
+
+        }
+
+
+
+//        for (int i = 0; i < adjList.size(); i++) {
+//            if (hasCycle(adjList, i, visited, -1)) return false;
+//        }
+//
+        for (int i = 0; i < adjList.size(); i++) {
+            if (!visited[i]) return false;
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
 
+
+//        int[][] edges = {{0, 1}, {0, 2}, {1, 3}, {0, 3}, {1, 4}};
+        int[][] edges = {{0, 1}, {2, 3}};
+        int n = 4;
+        System.out.println(validTree(n, edges));
+//        Integer[] arr = {21,7,14,1,1,2,2,3,3};
+//        TreeNode root = TreeNode.insertLevel(arr, 0);
+//        System.out.println(findTilt(root));
 //        Integer[] arr ={2,1,3};
 //        Object[] arr = {5,1,4,null,null,3,6};
-        Object[] arr = {5,4,6,null,null,3,7};
-        TreeNode root = TreeNode.insertLevel(arr, 0);
-        System.out.println(isValidBST(root));
+//        Object[] arr = {5,4,6,null,null,3,7};
+//        TreeNode root = TreeNode.insertLevel(arr, 0);
+//        System.out.println(isValidBST(root));
 
 
 
