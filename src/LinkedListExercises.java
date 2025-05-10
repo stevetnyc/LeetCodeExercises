@@ -25,8 +25,8 @@ public class LinkedListExercises {
 
         if (head == null) return false;
 
-        ListNode slow = head;
         ListNode fast = head;
+        ListNode slow = head;
 
         while (fast != null && fast.next != null) {
             slow = slow.next;
@@ -36,25 +36,27 @@ public class LinkedListExercises {
         ListNode curr = slow;
         ListNode prev = null;
 
-        //reverse 2nd half of the list
+        //3->4->5->6
+        //c->n->5->6
+        //c-> | n->5->6
+        //p<-c | n->5->6
+        //3<-4->5-
         while (curr != null) {
-            ListNode nextNode = curr.next;
+            ListNode next = curr.next;
             curr.next = prev;
             prev = curr;
-            curr =  nextNode;
+            curr = next;
         }
 
         ListNode left = head;
         ListNode right = prev;
-
-        while (prev != null){
-            if (prev.val != head.val) return false;
-            head = head.next;
-            prev = prev.next;
+        while (right != null) {
+            if (left.val != right.val) return false;
+            left = left.next;
+            right = right.next;
         }
-
-
         return true;
+
     }
 
     static ListNode reorderList(ListNode head) {
@@ -232,16 +234,26 @@ public class LinkedListExercises {
     }
     public static void main(String[] args) {
 
-//        ListNode[] arrList = initArr();
+
 
         ListNode head = new ListNode(1);
         head.next = new ListNode(2);
         head.next.next = new ListNode(3);
-        head.next.next.next = new ListNode(4);
-        head.next.next.next.next = new ListNode(5);
-//        head.next.next.next.next.next = new ListNode(6);
-        int k = 2;
-        Utils.printList(rotateRight(head, k));
+        head.next.next.next = new ListNode(3);
+        head.next.next.next.next = new ListNode(2);
+        head.next.next.next.next.next = new ListNode(1);
+
+        System.out.println(isPalindrome(head));
+//        ListNode[] arrList = initArr();
+
+//        ListNode head = new ListNode(1);
+//        head.next = new ListNode(2);
+//        head.next.next = new ListNode(3);
+//        head.next.next.next = new ListNode(4);
+//        head.next.next.next.next = new ListNode(5);
+////        head.next.next.next.next.next = new ListNode(6);
+//        int k = 2;
+//        Utils.printList(rotateRight(head, k));
 
 //        printList(mergeKLists(arrList));
 

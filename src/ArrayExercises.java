@@ -434,11 +434,45 @@ public class ArrayExercises {
         return totalProfit;
     }
 
+    public static double getMaxExpectedProfit(int N, int[] V, int C, double S) {
+        int valueCollected = 0;
+        int visits = 0;
+        double[][] valueInRoom = new double[N][N];
+        double[] profit = new double[N];
+
+        for (int i = 0; i < N; i++) {
+            valueInRoom[i][i] = V[i];
+
+            for (int j = i + 1; j < N; j++) {
+                valueInRoom[i][j] = (valueInRoom[i][j - 1] * (1 - S)) + V[j];
+            }
+        };
+
+        profit[N-1] = Math.max(0, V[N - 1] - C);
+
+        for (int i = N - 2; i >=0 ; i--) {
+            double maxProfit = Math.max(0, V[i] - C + V[i + 1]);
+            for (int j = i + 1; j < N; j++) {
+                double currProfit = (j < N - 1) ? profit[j+1] : 0;
+                maxProfit = Math.max(maxProfit, valueInRoom[i][j] - C + currProfit);
+            }
+            profit[i] = maxProfit;
+        }
+
+        return profit[0];
+    }
+
     public static void main(String[] args) {
 
+        int[] V = {10, 2, 8, 6, 4};
+        int N = V.length;
+        int C = 5;
+        double S = 0.5;
 
-        int[] prices = {1,2,3,4,6};
-        System.out.println(maxProfit(prices));
+        System.out.println(getMaxExpectedProfit(N, V, C, S));
+
+//        int[] prices = {1,2,3,4,6};
+//        System.out.println(maxProfit(prices));
 
 //        int[] nums = {2,3,0,1,4};
 //        int[] nums = {1,2,3};

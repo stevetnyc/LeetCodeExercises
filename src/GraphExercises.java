@@ -100,10 +100,13 @@ public class GraphExercises {
     }
 
     public static void main(String[] args) {
-//        int[][] preReqs = {{1,0}, {0, 1}};
-        int[][] preReqs = {{1,0}, {2,0}, {3,1}, {3,2}};
-        int numCourses = 4;
 
-        Utils.printArr(findOrder(numCourses, preReqs));
+
+
+//        int[][] preReqs = {{1,0}, {0, 1}};
+//        int[][] preReqs = {{1,0}, {2,0}, {3,1}, {3,2}};
+//        int numCourses = 4;
+//
+//        Utils.printArr(findOrder(numCourses, preReqs));
     }
 }
