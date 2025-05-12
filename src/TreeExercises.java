@@ -1,3 +1,4 @@
+import javax.rmi.CORBA.Util;
 import java.util.*;
 
 public class TreeExercises {
@@ -213,13 +214,54 @@ public class TreeExercises {
         return true;
     }
 
+
+
+    public static void vt_dfs(TreeNode node, int row, int col, List<int[]> nodeData) {
+        if (node == null) return;
+
+        nodeData.add(new int[] {row, col, node.val});
+        vt_dfs(node.left, row+1, col - 1, nodeData);
+        vt_dfs(node.right, row+1, col + 1, nodeData);
+    }
+
+    public static List<List<Integer>> verticalTraversal(TreeNode root) {
+
+        List<List<Integer>> result = new ArrayList<>();
+        List<int[]> nodeData = new ArrayList<>();
+
+        vt_dfs(root, 0, 0, nodeData);
+
+        nodeData.sort(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[1] != o2[1]) return Integer.compare(o1[1], o2[1]);
+                if (o1[0] != o2[0]) return Integer.compare(o1[0], o2[0]);
+                return Integer.compare(o1[2], o2[2]);
+            }
+        });
+
+        int prevCol = Integer.MIN_VALUE;
+        for (int[] node: nodeData) {
+            if (node[1] != prevCol) {
+                result.add(new ArrayList<Integer>());
+                prevCol = node[1];
+            }
+            result.get(result.size() - 1).add(node[2]);
+        }
+        return  result;
+
+    }
     public static void main(String[] args) {
 
 
+        Object[] arr = {3,9,20,null,null,15,7};
+        TreeNode root = TreeNode.insertLevel(arr, 0);
+        Utils.printList(verticalTraversal(root));
+
 //        int[][] edges = {{0, 1}, {0, 2}, {1, 3}, {0, 3}, {1, 4}};
-        int[][] edges = {{0, 1}, {2, 3}};
-        int n = 4;
-        System.out.println(validTree(n, edges));
+//        int[][] edges = {{0, 1}, {2, 3}};
+//        int n = 4;
+//        System.out.println(validTree(n, edges));
 //        Integer[] arr = {21,7,14,1,1,2,2,3,3};
 //        TreeNode root = TreeNode.insertLevel(arr, 0);
 //        System.out.println(findTilt(root));
@@ -254,3 +296,4 @@ public class TreeExercises {
     }
 
 }
+
