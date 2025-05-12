@@ -462,14 +462,40 @@ public class ArrayExercises {
         return profit[0];
     }
 
+    static int countSubarrays(int[] a) {
+        int[] prefix = new int[a.length + 1];
+        int result = 0;
+
+        for (int i = 1; i <= a.length; i++) {
+            prefix[i] = prefix[i-1] + a[i - 1];
+        }
+
+        for (int i = 1; i < a.length + 1; i++) {
+            for (int j = i; j < a.length + 1; j++) {
+                int currSum = prefix[j] - prefix[i - 1];
+                int currCount = j - i + 1;
+                int remainSum = prefix[a.length] - currSum;
+                int remainCount = (a.length - currCount == 0) ? 1 : a.length - currCount;
+                if (currSum/currCount > remainSum/remainCount) {
+                    result++;
+                }
+            }
+        }
+
+        return result;
+
+    }
+
     public static void main(String[] args) {
 
-        int[] V = {10, 2, 8, 6, 4};
-        int N = V.length;
-        int C = 5;
-        double S = 0.5;
-
-        System.out.println(getMaxExpectedProfit(N, V, C, S));
+        int[] a = {6, 3, 5};
+        System.out.println(countSubarrays(a));
+//        int[] V = {10, 2, 8, 6, 4};
+//        int N = V.length;
+//        int C = 5;
+//        double S = 0.5;
+//
+//        System.out.println(getMaxExpectedProfit(N, V, C, S));
 
 //        int[] prices = {1,2,3,4,6};
 //        System.out.println(maxProfit(prices));
