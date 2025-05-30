@@ -198,10 +198,30 @@ public class MatrixExercises {
 
     }
 
+    public static int maximalSquare(char[][] matrix) {
+        int[][] dp = new int[matrix.length + 1][matrix[0].length + 1];
+
+        int result = 0;
+
+        for (int r = 0; r < matrix.length; r++) {
+            for (int c = 0; c < matrix[0].length; c ++) {
+                if (matrix[r][c] == '1') {
+                    dp[r + 1][c + 1] = Math.min(Math.min(dp[r][c+1], dp[r + 1][c]), dp[r][c]) + 1;
+                    result = Math.max(result, dp[r + 1][c + 1]);
+                }
+            }
+        }
+
+        return result * result;
+
+    }
+
     public static void main(String[] args) {
 
-        int[][] grid = {{0,0,0},{1,1,0},{1,1,0}};
-        System.out.println(shortestPathBinaryMatrix(grid));
+        char[][] matrix = {{'1','0','1','0','0'},{'1','0','1','1','1'},{'1','1','1','1','1'},{'1','0','0','1','0'}};
+        System.out.println(maximalSquare(matrix));
+//        int[][] grid = {{0,0,0},{1,1,0},{1,1,0}};
+//        System.out.println(shortestPathBinaryMatrix(grid));
 
 //        char[][] board =
 //                {{'8','3','.','.','7','.','.','.','.'}
