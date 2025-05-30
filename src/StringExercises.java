@@ -252,16 +252,71 @@ public class StringExercises {
         return false;
     }
 
+    public static int calculate(String s) {
+        int result = 0;
+        Set<Character> nums = new HashSet<>();
+
+        nums.add('0');
+        nums.add('1');
+        nums.add('2');
+        nums.add('3');
+        nums.add('4');
+        nums.add('5');
+        nums.add('6');
+        nums.add('7');
+        nums.add('8');
+        nums.add('9');
+
+        int len = s.length();
+        String currNum = "";
+
+        Stack<Integer> opsQueue = new Stack<>();
+        int sign = 1;
+
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt(i);
+            if (nums.contains(c)) {
+                int start = i;
+                while (start < len && nums.contains(s.charAt(start))) {
+                    currNum += s.charAt(start);
+                    start++;
+                }
+                int num = Integer.parseInt(currNum);
+                result += sign * num;
+                currNum = "";
+                i = start - 1;
+            } else if (c == '+') {
+                sign = 1;
+            } else if (c == '-') {
+                sign = -1;
+            } else if (c == '(') {
+                opsQueue.push(result);
+                opsQueue.push(sign);
+                result = 0;
+                sign = 1;
+            } else if (c == ')') {
+                result = opsQueue.pop() * result + opsQueue.pop();
+            }
+        }
+        return  result;
+
+    }
+
+
+
     public static void main(String[] args) {
 
+//        String  s = "10 + 4 - 3";
+//        String s = "(1+(4+5+2)-3)+(6+8)";
+//        System.out.println(calculate(s));
 
 //        board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
 
 //        char[][] board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
 //        String word = "ABCCED";
-        char[][] board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
-        String word = "SEE";
-        System.out.println(exist(board, word));
+//        char[][] board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+//        String word = "SEE";
+//        System.out.println(exist(board, word));
 //        String s = "leetscode";
 //        String[] arr = {"leet", "code", "leets"};
 //        List<String> wordDict = new ArrayList<>(Arrays.asList(arr));

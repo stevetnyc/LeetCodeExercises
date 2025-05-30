@@ -152,24 +152,22 @@ public class ArrayExercises {
     public static int subarraySum(int[] nums, int k) {
         //nums = [1,1,1], k = 2
         int result = 0;
+        Map<Integer, Integer> sumsMap = new HashMap<>();
+        sumsMap.put(0, 1);
 
-        Map<Integer, Integer> sumsCount = new HashMap<>();
-        sumsCount.put(0, 1);
+        int runningTotal = 0;
 
-        int runningTot = 0;
-
-        for (int i = 0; i < nums.length; i++){
-
-            runningTot += nums[i];
-
-            int target = runningTot - k;
-            if (sumsCount.containsKey(target)) {
-                result += sumsCount.get(target);
+        for (int i = 0; i < nums.length; i++ ){
+            runningTotal += nums[i];
+            int target = runningTotal - k;
+            if (sumsMap.containsKey(target)){
+                result += sumsMap.get(target);
             }
-            sumsCount.put(runningTot, sumsCount.getOrDefault(runningTot,0) + 1);
+            sumsMap.put(runningTotal, sumsMap.getOrDefault(runningTotal, 0) + 1);
         }
 
         return result;
+
     }
 
     public static int computeDepthSum(List<Object> nestedList, int depth){
@@ -486,10 +484,68 @@ public class ArrayExercises {
 
     }
 
+    public static int majorityElement(int[] nums) {
+//        Map<Integer, Integer> counts = new HashMap<>();
+
+
+        int currCandidate = 0;
+        int currCount = 0;
+        for (int i = 0; i < nums.length; i++) {
+           if (currCount == 0) {
+               currCandidate = nums[i];
+               currCount++;
+           } else {
+               if (nums[i] == currCandidate) {
+                   currCount++;
+               } else {
+                   currCount--;
+               }
+           }
+        }
+
+        return currCandidate;
+    }
+    public static void nextPermutation(int[] nums) {
+
+        int i = nums.length - 2;
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--;
+        }
+        if (i >= 0) {
+            for (int j = nums.length - 1; j > 0; j--) {
+                if (nums[j] > nums[i]) {
+                    int tmp = nums[j];
+                    nums[j] = nums[i];
+                    nums[i] = tmp;
+                    break;
+                }
+            }
+        }
+
+        int start = i + 1;
+        int end = nums.length - 1;
+        while (start < end) {
+            int tmp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = tmp;
+            start++;
+            end--;
+        }
+    }
+
     public static void main(String[] args) {
 
-        int[] a = {6, 3, 5};
-        System.out.println(countSubarrays(a));
+        int[] nums = {1, 3, 5, 4, 2};
+        nextPermutation(nums);
+        Utils.printArr(nums);
+//        int[] nums = {3,2,1,1,1,2,3,1};
+//        System.out.println(majorityElement(nums));
+//        int[] nums = {3, 4, -1, 2, 1};
+//        int k = 5;
+
+//        System.out.println(subarraySum(nums, k));
+//        int[] a = {6, 3, 5};
+//        System.out.println(countSubarrays(a));
 //        int[] V = {10, 2, 8, 6, 4};
 //        int N = V.length;
 //        int C = 5;
