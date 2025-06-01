@@ -2,29 +2,18 @@
 
 import java.util.List;
 
-class Node {
-    int val;
-    Node left;
-    Node right;
-
-    public Node(int val)
-    {
-        this.val = val;
-        left = right = null;
-    }
-}
 class TreeToList {
-    Node root;
+    TreeNode root;
 
     // head --> Pointer to head node of created doubly linked list
-    Node head;
+    TreeNode head;
 
     // Initialize previously visited node as NULL. This is
     // static so that the same value is accessible in all recursive
     // calls
-    Node prev = null;
+    TreeNode prev = null;
 
-    void convert(Node root) {
+    void convert(TreeNode root) {
         // Base case
         if (root == null) {
             System.out.println("Root is null");
@@ -53,7 +42,7 @@ class TreeToList {
         System.out.println("Returned from right");
     }
 
-    void printList(Node node)
+    void printList(TreeNode node)
     {
         while (node != null)
         {
@@ -65,13 +54,13 @@ class TreeToList {
 
         int[] vals = new int[]{5, 15, 3, 8, 11, 7};
         TreeToList t2l = new TreeToList();
-        t2l.root = new Node(10);
-        t2l.root.left = new Node(5);
-        t2l.root.right = new Node(15);
-        t2l.root.left.left = new Node(3);
-        t2l.root.left.right = new Node(8);
-        t2l. root.right.left = new Node(11);
-        t2l.root.left.right.left = new Node(7);
+        t2l.root = new TreeNode(10);
+        t2l.root.left = new TreeNode(5);
+        t2l.root.right = new TreeNode(15);
+        t2l.root.left.left = new TreeNode(3);
+        t2l.root.left.right = new TreeNode(8);
+        t2l. root.right.left = new TreeNode(11);
+        t2l.root.left.right.left = new TreeNode(7);
 
 //        t2l.root = new Node(10);
 //        t2l.root.left = new Node(12);

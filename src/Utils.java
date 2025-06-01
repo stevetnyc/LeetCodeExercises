@@ -1,6 +1,5 @@
 import java.sql.SQLSyntaxErrorException;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Utils {
 
@@ -91,4 +90,32 @@ public class Utils {
         System.out.println("]");
 
     }
+
+//    public static void printNode (Node node) {
+//        Queue<Node> queue = new ArrayDeque<>();
+//        Set<Node> visited = new HashSet<>();
+//        queue.add(node);
+//        visited.add(node);
+//
+//        System.out.print("[");
+//
+//        while (!queue.isEmpty()) {
+//            int levelSize = queue.size();
+//            System.out.print("[");
+//
+//            for (int i = 0; i < levelSize; i++) {
+//                Node currNode = queue.poll();
+//                for (Node neighbor : currNode.neighbors) {
+//                    System.out.print(neighbor.val);
+//                    if (i < levelSize - 1) System.out.print(", ");
+//                    if (!visited.contains(neighbor)) queue.add(neighbor);
+//                }
+//            }
+//            System.out.print("]");
+//        }
+//
+//
+//
+//        System.out.println("]");
+//    }
 }

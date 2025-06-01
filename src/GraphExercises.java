@@ -99,7 +99,43 @@ public class GraphExercises {
        }
     }
 
+    public static void cg_rcrs(Node orig, Node copy, Set<Node> visited) {
+        if (visited.contains(orig)) return;
+
+        visited.add(orig);
+        copy.val = orig.val;
+
+        for (Node neighbor: orig.neighbors) {
+            copy.neighbors.add(neighbor);
+            Node neigborCopy = new Node();
+            neigborCopy.val = neighbor.val;
+            cg_rcrs(neighbor, neigborCopy, visited);
+        }
+    }
+
+    public static Node cloneGraph(Node node) {
+        if (node == null) return node;
+        Node result = new Node();
+        Set<Node> visited = new HashSet<>();
+
+        cg_rcrs(node, result, visited);
+
+        return result;
+    }
+
     public static void main(String[] args) {
+
+//        [[2,4],[1,3],[2,4],[1,3]]
+//        List<List<Integer>> nodeList = new ArrayList<>();
+//        List<Integer> tmp1 = Arrays.asList(new Integer[] {2, 4});
+//        nodeList.add(tmp1);
+//        List<Integer> tmp2 = Arrays.asList(new Integer[] {1, 3});
+//        nodeList.add(tmp2);
+//        List<Integer> tmp3 = Arrays.asList(new Integer[] {2, 4});
+//        nodeList.add(tmp3);
+//        List<Integer> tmp4 = Arrays.asList(new Integer[] {1, 3});
+//        nodeList.add(tmp4);
+
 
 
 
