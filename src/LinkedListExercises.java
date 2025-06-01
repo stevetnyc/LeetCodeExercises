@@ -1,4 +1,5 @@
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Stack;
@@ -145,30 +146,33 @@ public class LinkedListExercises {
         }
     }
 
+
     static ListNode mergeKLists(ListNode[] lists) {
 
         if (lists.length == 0) return null;
 
-        PriorityQueue<Integer> vals = new PriorityQueue<>();
+        PriorityQueue<ListNode> vals = new PriorityQueue<>(lists.length, new Comparator<ListNode>() {
+            public int compare(ListNode l1, ListNode l2) {
+               return l1.val - l2.val;
+            }});
         for (ListNode ln: lists) {
-            ListNode currNode = ln;
-
-            while (currNode != null) {
-                vals.add(currNode.val);
-                currNode = currNode.next;
-            }
+            if (ln != null) vals.add(ln);
         }
 
         if (vals.size() == 0) return null;
 
-        ListNode rtnList = new ListNode(vals.poll());
-        ListNode currNode = rtnList;
+        ListNode rtnList = new ListNode();
+        ListNode curr = rtnList;
         while (vals.size() > 0) {
-            currNode.next = new ListNode(vals.poll());
-            currNode = currNode.next;
+            ListNode tmp = vals.poll();
+            curr.next = tmp;
+            curr = curr.next;
+            if (tmp.next != null) {
+                vals.add(tmp.next);
+            }
         }
 
-        return rtnList;
+        return rtnList.next;
     }
 
     static ListNode[] initArr() {
@@ -234,17 +238,18 @@ public class LinkedListExercises {
     }
     public static void main(String[] args) {
 
+        ListNode[] arrList = initArr();
+        Utils.printList(mergeKLists(arrList));
 
+//        ListNode head = new ListNode(1);
+//        head.next = new ListNode(2);
+//        head.next.next = new ListNode(3);
+//        head.next.next.next = new ListNode(3);
+//        head.next.next.next.next = new ListNode(2);
+//        head.next.next.next.next.next = new ListNode(1);
+//
+//        System.out.println(isPalindrome(head));
 
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(2);
-        head.next.next = new ListNode(3);
-        head.next.next.next = new ListNode(3);
-        head.next.next.next.next = new ListNode(2);
-        head.next.next.next.next.next = new ListNode(1);
-
-        System.out.println(isPalindrome(head));
-//        ListNode[] arrList = initArr();
 
 //        ListNode head = new ListNode(1);
 //        head.next = new ListNode(2);
