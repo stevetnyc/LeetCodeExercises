@@ -73,13 +73,14 @@ public class ArrayExercises {
         Arrays.sort(nums);
 
         for (int i = 0; i < nums.length - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
             for (int j = i + 1; j < nums.length - 2; j++) {
-                while (i > 0 && nums[i] == nums[i - 1]) continue;
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
 
                 int left = j + 1;
                 int right = nums.length - 1;
                 while (left < right) {
-                    int total = nums[i] + nums[left] + nums[right] + nums[j];
+                    long total = (long) nums[i] + nums[left] + nums[right] + nums[j];
                     if (total < target) {
                         left++;
                     } else if (total > target) {
@@ -294,7 +295,7 @@ public class ArrayExercises {
 
     }
 
-    public static int maxArea(int[] height) {
+    public static int maxArea_old(int[] height) {
 //        Input: height = [1,8,6,2,5,4,8,3,7]
 //        Output: 49
 
@@ -531,11 +532,62 @@ public class ArrayExercises {
         }
     }
 
+    public static int maxArea(int[] height) {
+        int start = 0, end = height.length - 1;
+        int result = 0;
+        while (start < end) {
+            int currHeight = Math.min(height[start], height[end]);
+            result = Math.max(result, currHeight * (end - start));
+            if (height[start] < height[end]) {
+                start++;
+            } else {
+                end--;
+            }
+        }
+        return result;
+    }
+
+    public static int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int minDiff = Integer.MAX_VALUE;
+        int result = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int currSum = nums[i] + nums[left] + nums[right];
+                if (currSum == target) return currSum;
+
+                int currDiff = Math.abs(currSum - target);
+                if (currDiff < minDiff) {
+                    minDiff = currDiff;
+                    result = currSum;
+                }
+                if (currSum > target) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+
+        }
+
+        return result;
+    }
+
     public static void main(String[] args) {
 
-        int[] nums = {1, 3, 5, 4, 2};
-        nextPermutation(nums);
-        Utils.printArr(nums);
+//        int [] nums = {-1,2,1,-4};
+//        int[] nums = {-4,2,2,3,3,3};
+//        int target = 1;
+//        System.out.println(threeSumClosest(nums, target));
+//        int[] height = {1,8,6,2,5,4,8,3,7};
+//        System.out.println(maxArea(height));
+//        int[] nums = {1, 3, 5, 4, 2};
+//        nextPermutation(nums);
+//        Utils.printArr(nums);
 //        int[] nums = {3,2,1,1,1,2,3,1};
 //        System.out.println(majorityElement(nums));
 //        int[] nums = {3, 4, -1, 2, 1};
@@ -572,13 +624,14 @@ public class ArrayExercises {
 //        Utils.printArr(searchRange(nums, target));
 
 //        int[] height = {1,8,6,2,5,4,8,3,7};
-////        int[] height = {1,1};
+//        int[] height = {1,1};
 //        System.out.println(maxArea(height));
 
 
+        int[] nums = {2,2,2,2,2};
 //        int[] nums = {1,0,-1,0,-2,2};
-//        int target = 0;
-//        Utils.printList(fourSum(nums, target));
+        int target = 8;
+        Utils.printList(fourSum(nums, target));
 
 
 //        int[] fruits = {3,3,3,1,2,1,1,2,3,3,4};
