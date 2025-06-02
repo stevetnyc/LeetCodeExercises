@@ -43,7 +43,7 @@ public class DPExercises {
 
     }
 
-    public int lengthOfLIS(int[] nums) {
+    public static int lengthOfLIS(int[] nums) {
 //        nums = [8,2,4,3,6,12]
 
         int result = 0;
@@ -65,12 +65,18 @@ public class DPExercises {
         return result;
     }
 
+
     public static void main(String[] args) {
 
+//        int[] nums = {4,10,4,3,8,9};
+        int nums[] = {8,2,4,3,6,12};
+//        int[] nums = {1,3,6,7,9,4,10,5,6};
+//        int[] nums = {7,7,7,7,7};
+        System.out.println(lengthOfLIS(nums));
 //        String code = "06";
 //        System.out.println(numDecodings(code));
-        int m = 9;
-        int n = 9;
-        System.out.println(uniquePaths(m, n));
+//        int m = 9;
+//        int n = 9;
+//        System.out.println(uniquePaths(m, n));
     }
 }

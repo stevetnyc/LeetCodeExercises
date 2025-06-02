@@ -106,9 +106,9 @@ public class GraphExercises {
         copy.val = orig.val;
 
         for (Node neighbor: orig.neighbors) {
-            copy.neighbors.add(neighbor);
             Node neigborCopy = new Node();
             neigborCopy.val = neighbor.val;
+            copy.neighbors.add(neigborCopy);
             cg_rcrs(neighbor, neigborCopy, visited);
         }
     }
