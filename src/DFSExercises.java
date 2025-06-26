@@ -66,9 +66,38 @@ public class DFSExercises {
         return result;
     }
 
+    public static void combine_helper (int n, int k, int currNum, List<Integer> currList, List<List<Integer>> result ) {
+        if (currList.size() == k) {
+            result.add(new ArrayList<>(currList));
+            return;
+        }
+
+        if (currNum > n) return;
+
+        currList.add(currNum);
+        combine_helper(n, k, currNum+ 1, currList, result);
+
+        currList.remove(currList.size() - 1);
+        combine_helper(n, k, currNum+ 1, currList, result);
+    }
+
+    public static List<List<Integer>> combine(int n, int k) {
+//        Input: n = 4, k = 2
+//        Output: [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> currList = new ArrayList<>();
+        combine_helper(n, k, 1, currList, result);
+
+        return result;
+    }
+
     public static void main(String[] args) {
-        int[] nums = {1,2,3};
-        Utils.printList(permute(nums));
+
+        int n = 4, k = 2;
+        Utils.printList(combine(n, k));
+
+//        int[] nums = {1,2,3};
+//        Utils.printList(permute(nums));
 
 //        char[][] arr = {
 //                {'B', 'L', 'C', 'H'},
