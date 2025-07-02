@@ -337,12 +337,38 @@ public class StringExercises {
         return count;
     }
 
+    public static int longestPalindrome(String[] words) {
+        Map<String, Integer> counts = new HashMap<>();
+        int result = 0;
+        int singleCenter = 0;
+        for (String word: words) {
+            counts.put(word, counts.getOrDefault(word, 0) + 1);
+        }
+
+        for (Map.Entry<String, Integer> entry: counts.entrySet()){
+            String word = entry.getKey();
+            String rev = new StringBuilder(word).reverse().toString();
+
+            int count = entry.getValue();
+
+            if (word.charAt(0) == word.charAt(1)) {
+                singleCenter += count % 2;
+            } else {
+                result += Math.min(count, counts.getOrDefault(rev, 0)) * 2;
+            }
+        }
+        result += singleCenter > 0 ? 2 : 0;
+        return result;
+
+    }
+
     public static void main(String[] args) {
 
-        String pattern = "010";
-        String source = "amazing";
-
-        System.out.println(patternMatches(pattern, source));
+        String[] words = {"lc","cl","gg"};
+        System.out.println(longestPalindrome(words));
+//        String pattern = "010";
+//        String source = "amazing";
+//        System.out.println(patternMatches(pattern, source));
 
 //        String  s = "10 + 4 - 3";
 //        String s = "(1+(4+5+2)-3)+(6+8)";
