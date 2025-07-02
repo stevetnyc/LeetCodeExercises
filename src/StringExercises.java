@@ -302,9 +302,47 @@ public class StringExercises {
 
     }
 
+    public static int patternMatches(String pattern, String source) {
+        Set<Character> vowels = new HashSet<>();
 
+        vowels.add('a');
+        vowels.add('e');
+        vowels.add('i');
+        vowels.add('o');
+        vowels.add('u');
+
+        int l = 0;
+        int r = pattern.length();
+        int count = 0;
+
+        while (r <= source.length()) {
+            String sub = source.substring(l, r);
+            boolean match = true;
+            for (int i = 0; i < sub.length(); i++) {
+                Character c = sub.charAt(i);
+                if (pattern.charAt(i) == '0' && !vowels.contains(c)) {
+                    match = false;
+                    break;
+                }
+                if (pattern.charAt(i) == '1' && vowels.contains(c)) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) count++;
+            l++;
+            r++;
+        }
+
+        return count;
+    }
 
     public static void main(String[] args) {
+
+        String pattern = "010";
+        String source = "amazing";
+
+        System.out.println(patternMatches(pattern, source));
 
 //        String  s = "10 + 4 - 3";
 //        String s = "(1+(4+5+2)-3)+(6+8)";
