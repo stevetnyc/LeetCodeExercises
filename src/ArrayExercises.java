@@ -591,10 +591,54 @@ public class ArrayExercises {
 
     }
 
+    public static int longestConsecutive(int[] nums) {
+
+//        Arrays.sort(nums);
+        int currSeq = 1;
+        int maxSeq = 0;
+        Set<Integer> seqs = new HashSet<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            seqs.add(nums[i]);
+        }
+
+        for (int num: seqs) {
+            int curr = num;
+            if (!seqs.contains(num - 1)) {
+                while (seqs.contains(curr + 1)) {
+                    currSeq++;
+                    curr++;
+                }
+                maxSeq = Math.max(currSeq, maxSeq);
+            }
+
+
+        }
+        return maxSeq;
+    }
+
+    public static int power2Combinations(int[] nums) {
+        int count = 0;
+
+        Map<Integer, Integer> counts = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            counts.put(nums[i], counts.getOrDefault(nums[i], 0) + 1);
+            for (int twos = 0; twos < 21; twos ++) {
+                int secondNum = (1 << twos) - nums[i];
+                if (counts.containsKey(secondNum)) count += counts.get(secondNum);
+            }
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
 
-        int nums[] = {-2,1,-3,4,-1,2,1,-5,4};
-        System.out.println(maxSubArray(nums));
+        int[] nums = {1, -1, 2, 3};
+        System.out.println(power2Combinations(nums));
+//        System.out.println(longestConsecutive(nums));
+//        int nums[] = {-2,1,-3,4,-1,2,1,-5,4};
+//        System.out.println(maxSubArray(nums));
 
 //        int [] nums = {-1,2,1,-4};
 //        int[] nums = {-4,2,2,3,3,3};
