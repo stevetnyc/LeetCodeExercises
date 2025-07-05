@@ -632,10 +632,91 @@ public class ArrayExercises {
         return count;
     }
 
+    public static boolean canReorderDoubled(int[] arr) {
+
+        Map<Integer, Integer> frequency = new HashMap<>();
+
+        for (int num: arr) {
+            frequency.put(num, frequency.getOrDefault(num, 0) + 1);
+        }
+
+        if (frequency.containsKey(0) && frequency.get(0) % 2 == 1) return false;
+
+        List<Integer> keys = new ArrayList<>(frequency.keySet());
+        keys.sort(Comparator.comparingInt(Math::abs));
+
+        for (int key: keys) {
+            if (frequency.getOrDefault(key * 2, 0) < frequency.get(key)) return false;
+
+            frequency.put(key * 2, frequency.getOrDefault(key * 2, 0) - frequency.get(key));
+        }
+        return true;
+    }
+
+    public static int threeSumMulti(int[] arr, int target) {
+        //Taken from https://algo.monster/liteproblems/923
+
+        final int MOD = 1_000_000_007; // 1e9 + 7 is represented as 1000000007
+
+        int[] count = new int[101]; // Array to store count of each number, considering constraint 0 <= arr[i] <= 100
+        // Populate the count array with the frequency of each value in arr
+        for (int num : arr) {
+            ++count[num];
+        }
+        long ans = 0; // To store the result, using long to avoid integer overflow before taking the modulus
+
+        // Iterate through all elements in arr to find triplets
+        for (int j = 0; j < arr.length; ++j) {
+            int second = arr[j]; // The second element in the triplet
+            --count[second]; // Decrement count since this number is being used in the current triplet
+
+            // Iterate from the start of the array to the current index 'j'
+            for (int i = 0; i < j; ++i) {
+                int first = arr[i]; // The first element in the triplet
+                int third = target - first - second; // Calculate the third element
+
+                // Check if third element is within range and add the count to the answer
+                if (third >= 0 && third <= 100) {
+                    ans = (ans + count[third]) % MOD; // Use the modulo to avoid overflow and get the correct result
+                }
+            }
+        }
+        // Cast and return the final answer as an integer
+        return (int) ans;
+    }
+
+    public static int numberOfSubarrays(int[] nums, int k) {
+        int result = 0;
+
+        int currOdds = 0;
+        int[] prefixOdds = new int[nums.length + 1];
+        prefixOdds[0]=1;
+
+        for (int i = 0; i < nums.length; i++) {
+            currOdds += nums[i] & 1;
+            if (currOdds - k >= 0) {
+                result += prefixOdds[currOdds - k];
+            }
+            prefixOdds[currOdds]++;
+        }
+
+        return result;
+
+    }
+
+
     public static void main(String[] args) {
 
-        int[] nums = {1, -1, 2, 3};
-        System.out.println(power2Combinations(nums));
+
+        int[] arr = {1,1,2,1,1};
+        int k = 3;
+
+        System.out.println(numberOfSubarrays(arr, k));
+//        int[] nums = {4,-2,2,-4};
+//        System.out.println(canReorderDoubled(nums));
+
+
+//        System.out.println(power2Combinations(nums));
 //        System.out.println(longestConsecutive(nums));
 //        int nums[] = {-2,1,-3,4,-1,2,1,-5,4};
 //        System.out.println(maxSubArray(nums));
