@@ -216,10 +216,67 @@ public class MatrixExercises {
 
     }
 
+    public static int[][] generateMatrix(int n) {
+
+        int[][] result = new int[n][n];
+        int maxVal = n * n;
+
+        int currR = 0, currC = 0, currVal = 1;
+        int minR = 0, minC = 0, maxR = n - 1, maxC = n -1;
+
+        char dir = 'r';
+         while (currVal <= maxVal) {
+             result[currR][currC] = currVal;
+             currVal++;
+             switch(dir) {
+                 case 'r':
+                     if (currC < maxC) {
+                         currC++;
+                     } else {
+                         dir = 'd';
+                         minR++;
+                         currR++;
+                     }
+                     break;
+                 case 'd':
+                     if (currR < maxR) {
+                         currR++;
+                     } else {
+                         dir = 'l';
+                         currC--;
+                         maxC--;
+                     }
+                     break;
+                 case 'l':
+                     if (currC > minC) {
+                         currC--;
+                     } else {
+                         dir = 'u';
+                         currR--;
+                         maxR--;
+                     }
+                     break;
+                 case 'u':
+                     if (currR > minR) {
+                         currR--;
+                     } else {
+                         dir = 'r';
+                         currC++;
+                         minC++;
+                     }
+                     break;
+             }
+         }
+
+         return result;
+    }
+
     public static void main(String[] args) {
 
-        char[][] matrix = {{'1','0','1','0','0'},{'1','0','1','1','1'},{'1','1','1','1','1'},{'1','0','0','1','0'}};
-        System.out.println(maximalSquare(matrix));
+
+//        Utils.printArr(generateMatrix(4));
+//        char[][] matrix = {{'1','0','1','0','0'},{'1','0','1','1','1'},{'1','1','1','1','1'},{'1','0','0','1','0'}};
+//        System.out.println(maximalSquare(matrix));
 //        int[][] grid = {{0,0,0},{1,1,0},{1,1,0}};
 //        System.out.println(shortestPathBinaryMatrix(grid));
 
