@@ -271,8 +271,57 @@ public class MatrixExercises {
          return result;
     }
 
+    public static int[] findDiagonalOrder(int[][] mat) {
+
+        int size = mat.length * mat[0].length;
+        int[] result = new int[size];
+        int idx = 0;
+        int currR = 0, currC = 0, maxR = mat.length - 1, maxC = mat[0].length - 1;
+        String dir = "ur";
+
+        while (idx < size) {
+            result[idx] = mat[currR][currC];
+            idx++;
+            switch (dir) {
+                case "ur":
+                    if (currR > 0 && currC < maxC) {
+                        currR--;
+                        currC++;
+                    } else {
+                        dir = "dl";
+                        if (currR == 0 && currC == maxC) {
+                                currR++;
+                        } else if (currR == 0) {
+                             currC++;
+                        } else if (currC == maxC) {
+                            currR--;
+                        }
+                    }
+                    break;
+                case "dl":
+                    if (currC > 0 && currR < maxR) {
+                        currR++;
+                        currC--;
+                    } else {
+                        dir = "ur";
+                        if (currC == 0 && currR == maxR) {
+
+                            currC++;
+                        } else if (currC == 0) {
+                            currR++;
+                        } else if (currR == maxR) {
+                            currC++;
+                        }
+                    }
+                    break;
+            }
+        }
+        return result;
+    }
     public static void main(String[] args) {
 
+        int[][] mat = {{1,2,3},{4,5,6},{7,8,9}};
+        Utils.printArr(findDiagonalOrder(mat));
 
 //        Utils.printArr(generateMatrix(4));
 //        char[][] matrix = {{'1','0','1','0','0'},{'1','0','1','1','1'},{'1','1','1','1','1'},{'1','0','0','1','0'}};
