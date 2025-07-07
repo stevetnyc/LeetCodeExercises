@@ -704,14 +704,96 @@ public class ArrayExercises {
 
     }
 
+    public static int[] occurrencesOfElement(int[] nums, int[] queries, int x) {
+        int[] result = new int[queries.length];
+        List<Integer> occurences = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == x) occurences.add(i);
+        }
+
+        for (int i = 0; i < queries.length; i++) {
+            if (queries[i] <= occurences.size()) {
+                result[i] = occurences.get(queries[i] - 1);
+            } else {
+                result[i] = -1;
+            }
+        }
+
+        return result;
+    }
+
+    public static int[] queryResults(int limit, int[][] queries) {
+        Map<Integer, Integer> ballColor = new HashMap<>();
+        Map<Integer, Integer> colorCounts = new HashMap<>();
+        int[] result = new  int[queries.length];
+        int numColors = 0;
+
+        for (int i = 0; i < queries.length; i++) {
+            int ball = queries[i][0];
+            int color = queries[i][1];
+            int oldColor = ballColor.getOrDefault(ball, 0);
+
+            colorCounts.put(color, colorCounts.getOrDefault(color, 0) + 1);
+
+            // did ball change color?
+            // if so, decrement the old count
+            if (oldColor > 0) {
+                if (oldColor != color) {
+                    int count = colorCounts.get(oldColor) - 1;
+                    if (count <= 0) {
+                        colorCounts.remove(oldColor);
+                    } else {
+                        colorCounts.put(oldColor, count);
+                    }
+                } else {
+                    //color didn't change os undo increment
+                    colorCounts.put(color, colorCounts.get(color) - 1);
+                }
+            }
+
+            ballColor.put(ball, color);
+
+            result[i] = colorCounts.size();
+
+        }
+        return result;
+
+    }
+
+
+    public static int[] sumNeighbors(int[] arr) {
+        int[] result = new int[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            int sum = arr[i];
+            if (i > 0) {
+                sum += arr[i - 1];
+            }
+            if (i < arr.length -1) {
+                sum += arr[i +1];
+            }
+            result[i] = sum;
+        }
+        return result;
+    }
 
     public static void main(String[] args) {
 
+        int[] arr = {4,0,1,-2,3};
+        Utils.printArr(sumNeighbors(arr));
 
-        int[] arr = {1,1,2,1,1};
-        int k = 3;
-
-        System.out.println(numberOfSubarrays(arr, k));
+//        int[][] queries = {{0,1},{0,4},{0,4},{0,1},{1,2}};
+//        int limit = 1;
+//        Utils.printArr(queryResults(limit, queries));
+//        int[] nums = {1,3,1,7};
+//        int[] queries = {1,3,2,4};
+//        int x = 1;
+//        Utils.printArr(occurrencesOfElement(nums, queries, x));
+//        int[] arr = {1,1,2,1,1};
+//        int k = 3;
+//
+//        System.out.println(numberOfSubarrays(arr, k));
 //        int[] nums = {4,-2,2,-4};
 //        System.out.println(canReorderDoubled(nums));
 

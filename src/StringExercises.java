@@ -304,6 +304,7 @@ public class StringExercises {
 
     public static int patternMatches(String pattern, String source) {
         Set<Character> vowels = new HashSet<>();
+        int result = 0;
 
         vowels.add('a');
         vowels.add('e');
@@ -311,30 +312,25 @@ public class StringExercises {
         vowels.add('o');
         vowels.add('u');
 
-        int l = 0;
-        int r = pattern.length();
-        int count = 0;
+        int strSize = pattern.length();
+        for (int i = 0; i < source.length() - strSize; i++) {
+            String subStr = source.substring(i, i + strSize);
 
-        while (r <= source.length()) {
-            String sub = source.substring(l, r);
-            boolean match = true;
-            for (int i = 0; i < sub.length(); i++) {
-                Character c = sub.charAt(i);
-                if (pattern.charAt(i) == '0' && !vowels.contains(c)) {
-                    match = false;
-                    break;
-                }
-                if (pattern.charAt(i) == '1' && vowels.contains(c)) {
-                    match = false;
-                    break;
-                }
+            if (checkPattern(pattern, subStr, vowels)) {
+                result++;
             }
-            if (match) count++;
-            l++;
-            r++;
         }
+        return result;
+    }
 
-        return count;
+    public static boolean checkPattern(String pattern, String subStr, Set<Character> vowels) {
+        for (int i = 0; i < subStr.length(); i++) {
+            char currCh = subStr.charAt(i);
+
+            if (pattern.charAt(i) == '0' && !vowels.contains(currCh)) return false;
+            if (pattern.charAt(i) == '1' && vowels.contains(currCh)) return false;
+        }
+        return true;
     }
 
     public static int longestPalindrome(String[] words) {
@@ -364,11 +360,11 @@ public class StringExercises {
 
     public static void main(String[] args) {
 
-        String[] words = {"lc","cl","gg"};
-        System.out.println(longestPalindrome(words));
-//        String pattern = "010";
-//        String source = "amazing";
-//        System.out.println(patternMatches(pattern, source));
+//        String[] words = {"lc","cl","gg"};
+//        System.out.println(longestPalindrome(words));
+        String pattern = "010";
+        String source = "amazing";
+        System.out.println(patternMatches(pattern, source));
 
 //        String  s = "10 + 4 - 3";
 //        String s = "(1+(4+5+2)-3)+(6+8)";
