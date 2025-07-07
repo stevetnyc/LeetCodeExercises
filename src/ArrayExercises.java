@@ -778,10 +778,33 @@ public class ArrayExercises {
         return result;
     }
 
+    public static int numPairsDivisibleBy60(int[] time) {
+        int result = 0;
+
+        int[] counts = new int[60];
+
+        for (int i = 0; i < time.length; i++) {
+            int rem = time[i] % 60;
+            counts[rem]++;
+        }
+
+        for (int i = 1; i < 30; i++) {
+            result += counts[i] * counts[60 - i];
+        }
+
+        result += counts[0] * (counts[0] - 1) / 2;
+        result += counts[30] * (counts[30] - 1) / 2;
+
+        return result;
+    }
+
     public static void main(String[] args) {
 
-        int[] arr = {4,0,1,-2,3};
-        Utils.printArr(sumNeighbors(arr));
+        int[] time = {30,20,150,100,40};
+        System.out.println(numPairsDivisibleBy60(time));
+
+//        int[] arr = {4,0,1,-2,3};
+//        Utils.printArr(sumNeighbors(arr));
 
 //        int[][] queries = {{0,1},{0,4},{0,4},{0,1},{1,2}};
 //        int limit = 1;
