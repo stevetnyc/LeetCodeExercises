@@ -318,10 +318,65 @@ public class MatrixExercises {
         }
         return result;
     }
+
+    public static int dropPosition(int[][] field, int[][] figure) {
+        int height = field.length;
+        int width = field[0].length;
+        int figSize = figure.length;
+
+
+        //test all starting positions
+        for (int col = 0; col <= width - figSize; col++) {
+            int row = 1;
+            while (row <= height - figSize) {
+                boolean fits = true;
+                for (int x = 0; x < figSize; x++) {
+                    for (int y = 0; y < figSize; y++) {
+                        if (field[row + x][col + y] == 1 && figure[x][y] == 1) {
+                            fits = false;
+                        }
+                    }
+                }
+                if (!fits) break;
+                row++;
+            }
+            row--;
+            for (int x = 0; x < figSize; x++) {
+                boolean rowFilled = true;
+
+                for (int y = 0; y < width; y++) {
+                    if (!((field[row + x][y] == 1) || (((col <= y) && (y < col + figSize)) &&
+                            figure[x][y - col] == 1))) {
+                        rowFilled = false;
+                    }
+                }
+                if (rowFilled) return col;
+            }
+        }
+
+        return -1;
+    }
+
     public static void main(String[] args) {
 
-        int[][] mat = {{1,2,3},{4,5,6},{7,8,9}};
-        Utils.printArr(findDiagonalOrder(mat));
+        int[][] field = {
+                {0,0,0,0,0},
+                {0,0,0,0,0},
+                {0,0,0,0,0},
+                {1,1,0,1,0},
+                {1,0,1,0,1}
+        };
+
+        int[][] figure = {
+                {1,1,1},
+                {1,0,1},
+                {1,0,1}
+        };
+
+        System.out.println(dropPosition(field, figure));
+
+//        int[][] mat = {{1,2,3},{4,5,6},{7,8,9}};
+//        Utils.printArr(findDiagonalOrder(mat));
 
 //        Utils.printArr(generateMatrix(4));
 //        char[][] matrix = {{'1','0','1','0','0'},{'1','0','1','1','1'},{'1','1','1','1','1'},{'1','0','0','1','0'}};
