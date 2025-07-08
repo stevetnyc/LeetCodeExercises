@@ -357,23 +357,41 @@ public class MatrixExercises {
         return -1;
     }
 
+    public static boolean isToeplitzMatrix(int[][] matrix) {
+        for (int r = 1; r < matrix.length; r++) {
+            for (int c = 1; c < matrix[0].length; c++) {
+                if (matrix[r][c] != matrix[r-1][c-1]) return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
 
-        int[][] field = {
-                {0,0,0,0,0},
-                {0,0,0,0,0},
-                {0,0,0,0,0},
-                {1,1,0,1,0},
-                {1,0,1,0,1}
-        };
 
-        int[][] figure = {
-                {1,1,1},
-                {1,0,1},
-                {1,0,1}
-        };
-
-        System.out.println(dropPosition(field, figure));
+        int[][] matrix = {{1,2,3,4},{5,1,2,3},{9,5,1,2}};
+//        int[][] matrix = {{1,2},{2,2}};
+//        int[][] matrix = {
+//                {36,59,71,15,26,82,87},
+//                {56,36,59,71,15,26,82},
+//                {15,0,36,59,71,15,26}};
+        System.out.println(isToeplitzMatrix(matrix));
+//        int[][] field = {
+//                {0,0,0,0,0},
+//                {0,0,0,0,0},
+//                {0,0,0,0,0},
+//                {1,1,0,1,0},
+//                {1,0,1,0,1}
+//        };
+//
+//        int[][] figure = {
+//                {1,1,1},
+//                {1,0,1},
+//                {1,0,1}
+//        };
+//
+//        System.out.println(dropPosition(field, figure));
 
 //        int[][] mat = {{1,2,3},{4,5,6},{7,8,9}};
 //        Utils.printArr(findDiagonalOrder(mat));
