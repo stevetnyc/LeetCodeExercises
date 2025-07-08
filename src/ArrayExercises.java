@@ -798,10 +798,37 @@ public class ArrayExercises {
         return result;
     }
 
+    public static int[][] matrixReshape(int[][] mat, int r, int c) {
+        if (mat.length * mat[0].length != r * c) return mat;
+
+        int[][] result = new int[r][c];
+        int[] values = new int[mat.length * mat[0].length];
+        int idx = 0;
+
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[0].length; j++) {
+                values[idx] = mat[i][j];
+                idx++;
+            }
+        }
+
+        idx = 0;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                result[i][j] = values[idx++];
+            }
+        }
+
+        return result;
+
+    }
+
     public static void main(String[] args) {
 
-        int[] time = {30,20,150,100,40};
-        System.out.println(numPairsDivisibleBy60(time));
+        int[][] mat = {{1,2,3,4}};
+        Utils.printArr(matrixReshape(mat, 2, 2));
+//        int[] time = {30,20,150,100,40};
+//        System.out.println(numPairsDivisibleBy60(time));
 
 //        int[] arr = {4,0,1,-2,3};
 //        Utils.printArr(sumNeighbors(arr));
