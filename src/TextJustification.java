@@ -1,6 +1,7 @@
-import java.io.Console;
+
+
+import java.lang.String;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TextJustification {
@@ -60,7 +61,8 @@ public class TextJustification {
             if (lastLine) {
                 padding = " ";
             } else {
-                padding = " ".repeat(avgSpacesPerDelimiter);
+
+//                padding = " ".repeat(avgSpacesPerDelimiter);
             }
 
             paddedLine.append(lineWords.get(i) + padding);
@@ -78,7 +80,7 @@ public class TextJustification {
 
         String  lastPadding = new String();
         if (lastLine  || lineWords.size() == 1) {
-            lastPadding = " ".repeat(maxWidth - paddedLine.length());
+//            lastPadding = " ".repeat(maxWidth - paddedLine.length());
         } else {
             lastPadding = "";
         }
