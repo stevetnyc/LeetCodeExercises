@@ -823,10 +823,33 @@ public class ArrayExercises {
 
     }
 
+    public static int findPairs(int[] nums, int k) {
+        int result = 0;
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> pairs = new HashSet<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (seen.contains(nums[i] - k)) {
+                pairs.add(nums[i] - k);
+            }
+
+            if (seen.contains(nums[i] + k)) {
+                pairs.add(nums[i]);
+            }
+            seen.add(nums[i]);
+        }
+
+        return pairs.size();
+
+    }
+
     public static void main(String[] args) {
 
-        int[][] mat = {{1,2,3,4}};
-        Utils.printArr(matrixReshape(mat, 2, 2));
+        int[] nums = {3,1,4,1,5};
+        int k = 2;
+        System.out.println(findPairs(nums, k));
+//        int[][] mat = {{1,2,3,4}};
+//        Utils.printArr(matrixReshape(mat, 2, 2));
 //        int[] time = {30,20,150,100,40};
 //        System.out.println(numPairsDivisibleBy60(time));
 
