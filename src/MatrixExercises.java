@@ -216,10 +216,189 @@ public class MatrixExercises {
 
     }
 
+    public static int[][] generateMatrix(int n) {
+
+        int[][] result = new int[n][n];
+        int maxVal = n * n;
+
+        int currR = 0, currC = 0, currVal = 1;
+        int minR = 0, minC = 0, maxR = n - 1, maxC = n -1;
+
+        char dir = 'r';
+         while (currVal <= maxVal) {
+             result[currR][currC] = currVal;
+             currVal++;
+             switch(dir) {
+                 case 'r':
+                     if (currC < maxC) {
+                         currC++;
+                     } else {
+                         dir = 'd';
+                         minR++;
+                         currR++;
+                     }
+                     break;
+                 case 'd':
+                     if (currR < maxR) {
+                         currR++;
+                     } else {
+                         dir = 'l';
+                         currC--;
+                         maxC--;
+                     }
+                     break;
+                 case 'l':
+                     if (currC > minC) {
+                         currC--;
+                     } else {
+                         dir = 'u';
+                         currR--;
+                         maxR--;
+                     }
+                     break;
+                 case 'u':
+                     if (currR > minR) {
+                         currR--;
+                     } else {
+                         dir = 'r';
+                         currC++;
+                         minC++;
+                     }
+                     break;
+             }
+         }
+
+         return result;
+    }
+
+    public static int[] findDiagonalOrder(int[][] mat) {
+
+        int size = mat.length * mat[0].length;
+        int[] result = new int[size];
+        int idx = 0;
+        int currR = 0, currC = 0, maxR = mat.length - 1, maxC = mat[0].length - 1;
+        String dir = "ur";
+
+        while (idx < size) {
+            result[idx] = mat[currR][currC];
+            idx++;
+            switch (dir) {
+                case "ur":
+                    if (currR > 0 && currC < maxC) {
+                        currR--;
+                        currC++;
+                    } else {
+                        dir = "dl";
+                        if (currR == 0 && currC == maxC) {
+                                currR++;
+                        } else if (currR == 0) {
+                             currC++;
+                        } else if (currC == maxC) {
+                            currR--;
+                        }
+                    }
+                    break;
+                case "dl":
+                    if (currC > 0 && currR < maxR) {
+                        currR++;
+                        currC--;
+                    } else {
+                        dir = "ur";
+                        if (currC == 0 && currR == maxR) {
+
+                            currC++;
+                        } else if (currC == 0) {
+                            currR++;
+                        } else if (currR == maxR) {
+                            currC++;
+                        }
+                    }
+                    break;
+            }
+        }
+        return result;
+    }
+
+    public static int dropPosition(int[][] field, int[][] figure) {
+        int height = field.length;
+        int width = field[0].length;
+        int figSize = figure.length;
+
+
+        //test all starting positions
+        for (int col = 0; col <= width - figSize; col++) {
+            int row = 1;
+            while (row <= height - figSize) {
+                boolean fits = true;
+                for (int x = 0; x < figSize; x++) {
+                    for (int y = 0; y < figSize; y++) {
+                        if (field[row + x][col + y] == 1 && figure[x][y] == 1) {
+                            fits = false;
+                        }
+                    }
+                }
+                if (!fits) break;
+                row++;
+            }
+            row--;
+            for (int x = 0; x < figSize; x++) {
+                boolean rowFilled = true;
+
+                for (int y = 0; y < width; y++) {
+                    if (!((field[row + x][y] == 1) || (((col <= y) && (y < col + figSize)) &&
+                            figure[x][y - col] == 1))) {
+                        rowFilled = false;
+                    }
+                }
+                if (rowFilled) return col;
+            }
+        }
+
+        return -1;
+    }
+
+    public static boolean isToeplitzMatrix(int[][] matrix) {
+        for (int r = 1; r < matrix.length; r++) {
+            for (int c = 1; c < matrix[0].length; c++) {
+                if (matrix[r][c] != matrix[r-1][c-1]) return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
 
-        char[][] matrix = {{'1','0','1','0','0'},{'1','0','1','1','1'},{'1','1','1','1','1'},{'1','0','0','1','0'}};
-        System.out.println(maximalSquare(matrix));
+
+        int[][] matrix = {{1,2,3,4},{5,1,2,3},{9,5,1,2}};
+//        int[][] matrix = {{1,2},{2,2}};
+//        int[][] matrix = {
+//                {36,59,71,15,26,82,87},
+//                {56,36,59,71,15,26,82},
+//                {15,0,36,59,71,15,26}};
+        System.out.println(isToeplitzMatrix(matrix));
+//        int[][] field = {
+//                {0,0,0,0,0},
+//                {0,0,0,0,0},
+//                {0,0,0,0,0},
+//                {1,1,0,1,0},
+//                {1,0,1,0,1}
+//        };
+//
+//        int[][] figure = {
+//                {1,1,1},
+//                {1,0,1},
+//                {1,0,1}
+//        };
+//
+//        System.out.println(dropPosition(field, figure));
+
+//        int[][] mat = {{1,2,3},{4,5,6},{7,8,9}};
+//        Utils.printArr(findDiagonalOrder(mat));
+
+//        Utils.printArr(generateMatrix(4));
+//        char[][] matrix = {{'1','0','1','0','0'},{'1','0','1','1','1'},{'1','1','1','1','1'},{'1','0','0','1','0'}};
+//        System.out.println(maximalSquare(matrix));
 //        int[][] grid = {{0,0,0},{1,1,0},{1,1,0}};
 //        System.out.println(shortestPathBinaryMatrix(grid));
 

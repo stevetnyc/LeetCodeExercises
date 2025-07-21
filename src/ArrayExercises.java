@@ -591,10 +591,290 @@ public class ArrayExercises {
 
     }
 
+    public static int longestConsecutive(int[] nums) {
+
+//        Arrays.sort(nums);
+        int currSeq = 1;
+        int maxSeq = 0;
+        Set<Integer> seqs = new HashSet<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            seqs.add(nums[i]);
+        }
+
+        for (int num: seqs) {
+            int curr = num;
+            if (!seqs.contains(num - 1)) {
+                while (seqs.contains(curr + 1)) {
+                    currSeq++;
+                    curr++;
+                }
+                maxSeq = Math.max(currSeq, maxSeq);
+            }
+
+
+        }
+        return maxSeq;
+    }
+
+    public static int power2Combinations(int[] nums) {
+        int count = 0;
+
+        Map<Integer, Integer> counts = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            counts.put(nums[i], counts.getOrDefault(nums[i], 0) + 1);
+            for (int twos = 0; twos < 21; twos ++) {
+                int secondNum = (1 << twos) - nums[i];
+                if (counts.containsKey(secondNum)) count += counts.get(secondNum);
+            }
+        }
+        return count;
+    }
+
+    public static boolean canReorderDoubled(int[] arr) {
+
+        Map<Integer, Integer> frequency = new HashMap<>();
+
+        for (int num: arr) {
+            frequency.put(num, frequency.getOrDefault(num, 0) + 1);
+        }
+
+        if (frequency.containsKey(0) && frequency.get(0) % 2 == 1) return false;
+
+        List<Integer> keys = new ArrayList<>(frequency.keySet());
+        keys.sort(Comparator.comparingInt(Math::abs));
+
+        for (int key: keys) {
+            if (frequency.getOrDefault(key * 2, 0) < frequency.get(key)) return false;
+
+            frequency.put(key * 2, frequency.getOrDefault(key * 2, 0) - frequency.get(key));
+        }
+        return true;
+    }
+
+    public static int threeSumMulti(int[] arr, int target) {
+        //Taken from https://algo.monster/liteproblems/923
+
+        final int MOD = 1_000_000_007; // 1e9 + 7 is represented as 1000000007
+
+        int[] count = new int[101]; // Array to store count of each number, considering constraint 0 <= arr[i] <= 100
+        // Populate the count array with the frequency of each value in arr
+        for (int num : arr) {
+            ++count[num];
+        }
+        long ans = 0; // To store the result, using long to avoid integer overflow before taking the modulus
+
+        // Iterate through all elements in arr to find triplets
+        for (int j = 0; j < arr.length; ++j) {
+            int second = arr[j]; // The second element in the triplet
+            --count[second]; // Decrement count since this number is being used in the current triplet
+
+            // Iterate from the start of the array to the current index 'j'
+            for (int i = 0; i < j; ++i) {
+                int first = arr[i]; // The first element in the triplet
+                int third = target - first - second; // Calculate the third element
+
+                // Check if third element is within range and add the count to the answer
+                if (third >= 0 && third <= 100) {
+                    ans = (ans + count[third]) % MOD; // Use the modulo to avoid overflow and get the correct result
+                }
+            }
+        }
+        // Cast and return the final answer as an integer
+        return (int) ans;
+    }
+
+    public static int numberOfSubarrays(int[] nums, int k) {
+        int result = 0;
+
+        int currOdds = 0;
+        int[] prefixOdds = new int[nums.length + 1];
+        prefixOdds[0]=1;
+
+        for (int i = 0; i < nums.length; i++) {
+            currOdds += nums[i] & 1;
+            if (currOdds - k >= 0) {
+                result += prefixOdds[currOdds - k];
+            }
+            prefixOdds[currOdds]++;
+        }
+
+        return result;
+
+    }
+
+    public static int[] occurrencesOfElement(int[] nums, int[] queries, int x) {
+        int[] result = new int[queries.length];
+        List<Integer> occurences = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == x) occurences.add(i);
+        }
+
+        for (int i = 0; i < queries.length; i++) {
+            if (queries[i] <= occurences.size()) {
+                result[i] = occurences.get(queries[i] - 1);
+            } else {
+                result[i] = -1;
+            }
+        }
+
+        return result;
+    }
+
+    public static int[] queryResults(int limit, int[][] queries) {
+        Map<Integer, Integer> ballColor = new HashMap<>();
+        Map<Integer, Integer> colorCounts = new HashMap<>();
+        int[] result = new  int[queries.length];
+        int numColors = 0;
+
+        for (int i = 0; i < queries.length; i++) {
+            int ball = queries[i][0];
+            int color = queries[i][1];
+            int oldColor = ballColor.getOrDefault(ball, 0);
+
+            colorCounts.put(color, colorCounts.getOrDefault(color, 0) + 1);
+
+            // did ball change color?
+            // if so, decrement the old count
+            if (oldColor > 0) {
+                if (oldColor != color) {
+                    int count = colorCounts.get(oldColor) - 1;
+                    if (count <= 0) {
+                        colorCounts.remove(oldColor);
+                    } else {
+                        colorCounts.put(oldColor, count);
+                    }
+                } else {
+                    //color didn't change os undo increment
+                    colorCounts.put(color, colorCounts.get(color) - 1);
+                }
+            }
+
+            ballColor.put(ball, color);
+
+            result[i] = colorCounts.size();
+
+        }
+        return result;
+
+    }
+
+
+    public static int[] sumNeighbors(int[] arr) {
+        int[] result = new int[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            int sum = arr[i];
+            if (i > 0) {
+                sum += arr[i - 1];
+            }
+            if (i < arr.length -1) {
+                sum += arr[i +1];
+            }
+            result[i] = sum;
+        }
+        return result;
+    }
+
+    public static int numPairsDivisibleBy60(int[] time) {
+        int result = 0;
+
+        int[] counts = new int[60];
+
+        for (int i = 0; i < time.length; i++) {
+            int rem = time[i] % 60;
+            counts[rem]++;
+        }
+
+        for (int i = 1; i < 30; i++) {
+            result += counts[i] * counts[60 - i];
+        }
+
+        result += counts[0] * (counts[0] - 1) / 2;
+        result += counts[30] * (counts[30] - 1) / 2;
+
+        return result;
+    }
+
+    public static int[][] matrixReshape(int[][] mat, int r, int c) {
+        if (mat.length * mat[0].length != r * c) return mat;
+
+        int[][] result = new int[r][c];
+        int[] values = new int[mat.length * mat[0].length];
+        int idx = 0;
+
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[0].length; j++) {
+                values[idx] = mat[i][j];
+                idx++;
+            }
+        }
+
+        idx = 0;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                result[i][j] = values[idx++];
+            }
+        }
+
+        return result;
+
+    }
+
+    public static int findPairs(int[] nums, int k) {
+        int result = 0;
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> pairs = new HashSet<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (seen.contains(nums[i] - k)) {
+                pairs.add(nums[i] - k);
+            }
+
+            if (seen.contains(nums[i] + k)) {
+                pairs.add(nums[i]);
+            }
+            seen.add(nums[i]);
+        }
+
+        return pairs.size();
+
+    }
+
     public static void main(String[] args) {
 
-        int nums[] = {-2,1,-3,4,-1,2,1,-5,4};
-        System.out.println(maxSubArray(nums));
+        int[] nums = {3,1,4,1,5};
+        int k = 2;
+        System.out.println(findPairs(nums, k));
+//        int[][] mat = {{1,2,3,4}};
+//        Utils.printArr(matrixReshape(mat, 2, 2));
+//        int[] time = {30,20,150,100,40};
+//        System.out.println(numPairsDivisibleBy60(time));
+
+//        int[] arr = {4,0,1,-2,3};
+//        Utils.printArr(sumNeighbors(arr));
+
+//        int[][] queries = {{0,1},{0,4},{0,4},{0,1},{1,2}};
+//        int limit = 1;
+//        Utils.printArr(queryResults(limit, queries));
+//        int[] nums = {1,3,1,7};
+//        int[] queries = {1,3,2,4};
+//        int x = 1;
+//        Utils.printArr(occurrencesOfElement(nums, queries, x));
+//        int[] arr = {1,1,2,1,1};
+//        int k = 3;
+//
+//        System.out.println(numberOfSubarrays(arr, k));
+//        int[] nums = {4,-2,2,-4};
+//        System.out.println(canReorderDoubled(nums));
+
+
+//        System.out.println(power2Combinations(nums));
+//        System.out.println(longestConsecutive(nums));
+//        int nums[] = {-2,1,-3,4,-1,2,1,-5,4};
+//        System.out.println(maxSubArray(nums));
 
 //        int [] nums = {-1,2,1,-4};
 //        int[] nums = {-4,2,2,3,3,3};

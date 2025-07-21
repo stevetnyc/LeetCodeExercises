@@ -302,9 +302,69 @@ public class StringExercises {
 
     }
 
+    public static int patternMatches(String pattern, String source) {
+        Set<Character> vowels = new HashSet<>();
+        int result = 0;
 
+        vowels.add('a');
+        vowels.add('e');
+        vowels.add('i');
+        vowels.add('o');
+        vowels.add('u');
+
+        int strSize = pattern.length();
+        for (int i = 0; i < source.length() - strSize; i++) {
+            String subStr = source.substring(i, i + strSize);
+
+            if (checkPattern(pattern, subStr, vowels)) {
+                result++;
+            }
+        }
+        return result;
+    }
+
+    public static boolean checkPattern(String pattern, String subStr, Set<Character> vowels) {
+        for (int i = 0; i < subStr.length(); i++) {
+            char currCh = subStr.charAt(i);
+
+            if (pattern.charAt(i) == '0' && !vowels.contains(currCh)) return false;
+            if (pattern.charAt(i) == '1' && vowels.contains(currCh)) return false;
+        }
+        return true;
+    }
+
+    public static int longestPalindrome(String[] words) {
+        Map<String, Integer> counts = new HashMap<>();
+        int result = 0;
+        int singleCenter = 0;
+        for (String word: words) {
+            counts.put(word, counts.getOrDefault(word, 0) + 1);
+        }
+
+        for (Map.Entry<String, Integer> entry: counts.entrySet()){
+            String word = entry.getKey();
+            String rev = new StringBuilder(word).reverse().toString();
+
+            int count = entry.getValue();
+
+            if (word.charAt(0) == word.charAt(1)) {
+                singleCenter += count % 2;
+            } else {
+                result += Math.min(count, counts.getOrDefault(rev, 0)) * 2;
+            }
+        }
+        result += singleCenter > 0 ? 2 : 0;
+        return result;
+
+    }
 
     public static void main(String[] args) {
+
+//        String[] words = {"lc","cl","gg"};
+//        System.out.println(longestPalindrome(words));
+        String pattern = "010";
+        String source = "amazing";
+        System.out.println(patternMatches(pattern, source));
 
 //        String  s = "10 + 4 - 3";
 //        String s = "(1+(4+5+2)-3)+(6+8)";
